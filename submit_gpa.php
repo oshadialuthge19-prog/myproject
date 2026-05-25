@@ -1,0 +1,43 @@
+<?php
+
+session_start();
+
+include "Includes/db.php";
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    $student_id = $_SESSION['user_id'];
+
+    $mentor_id = $_POST['mentor_id'];
+
+    $semester = $_POST['semester'];
+
+    $gpa = $_POST['gpa'];
+
+    $stmt = $conn->prepare(
+
+    "INSERT INTO gpa_submissions
+    (student_id, mentor_id, semester, gpa)
+
+    VALUES (?, ?, ?, ?)"
+
+    );
+
+    $stmt->bind_param(
+    "iisd",
+    $student_id,
+    $mentor_id,
+    $semester,
+    $gpa
+    );
+
+    if($stmt->execute()){
+
+        header("Location: student_dashbord.php");
+
+    }else{
+
+        echo "Failed to submit GPA.";
+    }
+}
+?>

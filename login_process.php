@@ -34,7 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
         $_SESSION['role'] = $user['role'];
-        $_SESSION['student_name'] = $user['usersName'];
+        $_SESSION['name'] = $user['usersName'];
+        $_SESSION['user_id'] = $user['usersId'];
         // $_SESSION['name'] = $user['usersName'];
 
         if ($user['role'] == 'student') {

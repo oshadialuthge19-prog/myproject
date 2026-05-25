@@ -1,6 +1,16 @@
 <?php
 session_start();
 
+include "Includes/db.php";
+
+// fetch real mentors from database
+$mentors =
+$conn->query(
+"SELECT usersId, usersName
+FROM users
+WHERE role='mentor'"
+);
+
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 'student') {
     header("Location: login.php");
     exit();
@@ -108,7 +118,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'student') {
 
     <div class="welcome-text">
         <h1>
-            Welcome, <?php echo $_SESSION['student_name']; ?> 👋
+            Welcome, <?php echo $_SESSION['name']; ?> 👋
         </h1>
     </div>
 
@@ -168,35 +178,51 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'student') {
 
     </div>
 
-   <div class="mentor-card">
+    <!-- mentor selection -->
+
+    <form action="submit_gpa.php" method="POST">
+    
+
+<div class="mentor-card">
 
     <h2>Submit GPA</h2>
 
-    <select class="mentor-select">
+    <select class="mentor-select" name="mentor_id" required>
+        <input type="hidden" name="gpa"id="hidden-gpa">
 
-        <option>Select Mentor</option>
+        <option value="">Submit GPA</option>
 
-        <option>Dr. Silva</option>
+        <?php
 
-        <option>Ms. Perera</option>
+        while($mentor =
+        $mentors->fetch_assoc()){
 
-        <option>Mr. Fernando</option>
+        ?>
+
+        <option value=
+        "<?php echo $mentor['usersId']; ?>">
+
+            <?php
+            echo $mentor['usersName'];
+            ?>
+
+        </option>
+
+        <?php } ?>
 
     </select>
 
-    <input type="text"
-    placeholder="Semester"
-    class="semester-input">
+    <input type="text" placeholder="Semester" class="semester-input" name="semester">
 
-    <button>
-        Submit GPA
+    <button type="submit">
+
+        Select Mentor
+
     </button>
 
 </div>
 
-</select>
-
-</div>
+</form>
 
 </section>
         
@@ -312,6 +338,9 @@ function calculateGPA(){
 
     document.getElementById("gpa-result")
     .innerText = gpa.toFixed(2);
+
+    document.getElementById("hidden-gpa").value =
+gpa.toFixed(2);
 }
 
 
