@@ -1,0 +1,125 @@
+body{
+    margin:0;
+    padding:0;
+    font-family:'Poppins', sans-serif;
+    min-height:100vh;
+    background: linear-gradient(
+    135deg,
+    #dfe9ff,
+    #f4f7ff,
+    #eef3ff
+);
+}
+
+
+.appointment-section{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:50px;
+    background: transparent;
+}
+
+.appointment-container{
+    width:500px;
+    max-width:90%;
+    background:#fff;
+    padding:50px 40px;
+    border-radius:25px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.08);
+    animation:fadeIn 0.5s ease;
+}
+
+.appointment-card h2{
+    text-align:center;
+    margin-bottom:30px;
+    color:#0d0b6b;
+    font-size:32px;
+}
+
+.appointment-input,
+.appointment-textarea{
+    width:100%;
+    padding:15px;
+    margin-bottom:20px;
+    border:1px solid #dcdcdc;
+    border-radius:12px;
+    font-size:16px;
+    outline:none;
+    transition:0.3s;
+    box-sizing:border-box;
+}
+
+.appointment-input:focus,
+.appointment-textarea:focus{
+    border-color:#0d0b6b;
+    box-shadow:0 0 5px rgba(13,11,107,0.2);
+}
+
+.appointment-textarea{
+    height:120px;
+    resize:none;
+}
+
+.appointment-card button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#0d0b6b;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.appointment-card button:hover{
+    background:#1d2bb8;
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(13,11,107,0.25);
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Student Appointments status Section */
+
+.student-appointments{
+    padding:60px;
+}
+
+.student-appointments h2{
+    text-align:center;
+    color:#0d0b6b;
+    font-size:42px;
+    margin-bottom:40px;
+}
+
+.appointment-history-card{
+    width:320px;
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.appointment-history-card h3{
+    color:#0d0b6b;
+    margin-bottom:15px;
+}
+
+.appointment-history-card p{
+    color:#555;
+    margin-bottom:12px;
+}

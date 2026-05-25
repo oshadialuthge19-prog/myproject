@@ -1,10 +1,16 @@
-<<<<<<< HEAD
+
 <?php
 session_start();
 include "Includes/db.php";
 
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mentor') {
+    header("Location: login.php");
+    exit();
+}
+
 // fetch assigned students for mentor
 $mentor_id = $_SESSION['user_id'];
+
 
 $query = $conn->prepare(
 
@@ -27,10 +33,28 @@ $query->execute();
 
 $students = $query->get_result();
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mentor') {
-    header("Location: login.php");
-    exit();
-}
+// fetch GPA submissions for mentor
+
+$gpa_query = $conn->prepare(
+
+"SELECT users.usersName,
+gpa_submissions.semester,
+gpa_submissions.gpa
+
+FROM gpa_submissions
+
+JOIN users
+ON gpa_submissions.student_id = users.usersId
+
+WHERE gpa_submissions.mentor_id=?"
+
+);
+
+$gpa_query->bind_param("i", $mentor_id);
+
+$gpa_query->execute();
+
+$gpa_reports = $gpa_query->get_result();
 ?>
  
 
@@ -65,7 +89,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mentor') {
         <ul class="navbar_menu">
 
             <li class="navbar_item">
-                <a href="mentor_dashboard.php" class="navbar_links">Dashboard</a>
+                <a href="mentor_dashbord.php" class="navbar_links">Dashboard</a>
             </li>
 
             <li class="navbar_item">
@@ -73,7 +97,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mentor') {
             </li>
 
             <li class="navbar_item">
-                <a href="#" class="navbar_links">Appointments</a>
+                <a href="mentor_appointment.php" class="navbar_links">Appointments</a>
             </li>
 
             <!-- <li class="navbar_item">
@@ -245,6 +269,69 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mentor') {
 
 </section>
 
+<!-- GPA Reports -->
+
+<section class="gpa-reports">
+
+    <h2>Student GPA Reports</h2>
+
+    <div class="reports-container">
+
+        <?php
+
+        if($gpa_reports->num_rows > 0){
+
+            while($report =
+            $gpa_reports->fetch_assoc()){
+
+        ?>
+
+        <div class="report-card">
+
+            <h3>
+                <?php echo $report['usersName']; ?>
+            </h3>
+
+            <p>
+                Semester:
+                <?php echo $report['semester']; ?>
+            </p>
+
+            <span>
+                GPA:
+                <?php echo $report['gpa']; ?>
+            </span>
+
+        </div>
+
+        <?php
+
+            }
+
+        }else{
+
+            echo "
+
+            <div class='empty-box'>
+
+                <h3>
+                No GPA Reports Yet
+                </h3>
+
+            </div>
+
+            ";
+
+        }
+
+        ?>
+
+    </div>
+
+</section>
+
+
+
 <script>
 // Toggle profile menu
   let subMenu = document.getElementById("subMenu");
@@ -299,145 +386,4 @@ animateValue("appointment-count", 0, 0, 1000);
 </html>
 
 <?php include "Includes/footer.php"; ?>
-=======
 
-<?php
-session_start();
-
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mentor') {
-    header("Location: login.php");
-    exit();
-}
-?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mentor Dashboard</title>
-  <link rel="stylesheet" href="style.css?v=3" />
-</head>
-<body class="mentor-dashboard-page">
-
-  <div class="mentor-dashboard">
-
-    <header class="mentor-header">
-      <div class="logo">
-        <img src="Assets/logo.png" alt="Mentoring Platform Logo" />
-        <div>
-          <h3>Mentoring Platform</h3>
-          <p>ABC University</p>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <a href="index.php">Home</a>
-        <a href="mentor_dashbord.php">Dashboard</a>
-      </nav>
-
-      <div class="mentor-icons">
-        <span>🔔</span>
-        <span>👤</span>
-        <span>⌄</span>
-        <span>☰</span>
-      </div>
-    </header>
-
-    <div class="portal-buttons">
-      <button class="selected">Mentor Portal</button>
-      <button>Student Portal</button>
-    </div>
-
-    <main>
-      <h2>Have a nice day mentor name !</h2>
-
-      <div class="mentor-grid">
-
-        <section class="mentor-left">
-          <div class="card upcoming">
-            <h3>Up Coming Sessions..</h3>
-            <div class="session-box">
-              <p>Monday - at 10.00 am (Via Zoom) - 1198s0</p>
-              <p>Friday - at 9.00 am</p>
-            </div>
-          </div>
-
-          <div class="card notices">
-            <h3>Important Notices</h3>
-
-            <div class="notice-row">
-              <p>Assessment submitted by 32190s</p>
-              <button>View Details</button>
-            </div>
-
-            <div class="notice-row">
-              <p>Session Reminder</p>
-              <button>View Details</button>
-            </div>
-          </div>
-        </section>
-
-        <section class="mentor-middle">
-          <div class="card calendar">
-            <h3>Calender</h3>
-            <input type="date" />
-          </div>
-
-          <div class="upload-area">
-            <button>📁 Upload files</button>
-          </div>
-        </section>
-
-        <section class="mentor-right">
-          <div class="side-menu">
-            <a href="#">Student Request</a>
-            <a href="#">My Student</a>
-            <a href="#">Sessions</a>
-            <a href="#">Availability</a>
-            <a href="#">Log Out</a>
-          </div>
-
-          <div class="mentor-image">
-            <img src="Assets/mentor.png" alt="Mentor illustration" />
-          </div>
-
-          <div class="todo-card">
-            <h3>To Do List</h3>
-
-            <ul>
-              <li>Identify current status of students</li>
-              <li>Identify gaps of each students</li>
-              <li>Make new assessments</li>
-              <li>Learn a new method</li>
-              <li>Review assessments</li>
-            </ul>
-
-            <div class="todo-actions">
-              <button>Add</button>
-              <button>Delete</button>
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </main>
-
-    <!-- <footer>
-      <div class="footer-logo">
-        <img src="Assets/logo.png" alt="Mentoring Platform Logo" />
-        <p>Mentoring Platform<br>ABC University</p>
-      </div>
-
-      <p>What we DO!<br>Privacy Policy</p>
-      <p>Student Portal<br>Mentor Portal</p>
-      <p>Contact Us : &nbsp;&nbsp; Email: mentor@gmail.com</p>
-      <p>Address: 123/u,yuimanwer, reyqw.</p>
-    </footer> -->
-
-  </div>
-
-</body>
-</html>
->>>>>>> ee59040cc70d5b4e2460ecdb82f21e941850dc09

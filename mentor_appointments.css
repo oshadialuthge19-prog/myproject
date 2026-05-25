@@ -1,0 +1,112 @@
+body{
+    margin:0;
+    padding:0;
+    font-family:'Poppins', sans-serif;
+
+    background:linear-gradient(
+    135deg,
+    #eef2ff,
+    #f8fbff
+    );
+}
+
+.appointments-section{
+    padding:60px;
+}
+
+.appointments-container h1{
+    text-align:center;
+    color:#0d0b6b;
+    margin-bottom:40px;
+    font-size:48px;
+}
+
+.appointments-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:25px;
+    justify-content:center;
+}
+
+.appointment-card{
+    width:320px;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.appointment-card h2{
+    color:#0d0b6b;
+    margin-bottom:20px;
+}
+
+.appointment-card p{
+    color:#555;
+    margin-bottom:15px;
+}
+
+
+
+.appointment-card{
+    transition:0.3s;
+}
+
+.appointment-actions{
+    margin-top:20px;
+}
+
+.appointment-actions form{
+    display:flex;
+    gap:10px;
+}
+
+
+/* reject accept Button Styles */
+.approve-btn,
+.reject-btn{
+    border:none;
+    padding:10px 18px;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+    transition:0.3s;
+}
+
+.approve-btn{
+    background:#28a745;
+}
+
+.approve-btn:hover{
+    background:#218838;
+}
+
+.reject-btn{
+    background:#dc3545;
+}
+
+.reject-btn:hover{
+    background:#c82333;
+}
+
+.status-badge{
+    display:inline-block;
+    padding:10px 22px;
+    border-radius:30px;
+    color:white;
+    font-weight:600;
+    margin-top:10px;
+}
+
+.pending{
+    background:#0d0b6b;
+}
+
+.approved{
+    background:#28a745;
+}
+
+.rejected{
+    background:#dc3545;
+}

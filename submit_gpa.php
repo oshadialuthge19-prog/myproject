@@ -14,6 +14,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $gpa = $_POST['gpa'];
 
+    if(empty($gpa)){
+    die("Please calculate GPA first.");
+}
+
     $stmt = $conn->prepare(
 
     "INSERT INTO gpa_submissions
