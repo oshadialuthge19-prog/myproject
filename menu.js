@@ -20,21 +20,21 @@ const highlightMenu = () => {
     let scrollPos = window.scrollY;
     //console.log(scrollPos);
 
-    // adds 'highlight' class to my menu items
-    if(window.innerWidth > 960 && scrollPos < 600){
-        homeMenu.classList.add('highlight');
-        aboutMenu.classList.remove('highlight');
-        return;
-    } else if(window.innerWidth > 960 && scrollPos < 1400){
-        mentorsMenu.classList.add('highlight');
-        aboutMenu.classList.remove('highlight');
-        return;
-    }
+//     // adds 'highlight' class to my menu items
+//     if(window.innerWidth > 960 && scrollPos < 600){
+//         homeMenu.classList.add('highlight');
+//         aboutMenu.classList.remove('highlight');
+//         return;
+//     } else if(window.innerWidth > 960 && scrollPos < 1400){
+//         mentorsMenu.classList.add('highlight');
+//         aboutMenu.classList.remove('highlight');
+//         return;
+//     }
 
-    if((elem && window.innerWidth > 960 && scrollPos < 600) || (elem && window.innerWidth > 960 && scrollPos > 1400)){
-        elem.classList.remove('highlight');
-    }
-}
+//     if((elem && window.innerWidth > 960 && scrollPos < 600) || (elem && window.innerWidth > 960 && scrollPos > 1400)){
+//         elem.classList.remove('highlight');
+//     }
+// }
 
 window.addEventListener('scroll', highlightMenu);
 window.addEventListener('click', highlightMenu);
@@ -50,3 +50,4 @@ const hideMobileMenu = () => {
 
 menuLinks.addEventListener('click', hideMobileMenu);
 navLogo.addEventListener('click', hideMobileMenu);
+}

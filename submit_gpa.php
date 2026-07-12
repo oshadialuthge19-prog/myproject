@@ -44,4 +44,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         echo "Failed to submit GPA.";
     }
 }
+
+// mentor notification
+
+$message =
+"A student submitted a GPA report.";
+
+$notify = $conn->prepare(
+
+"INSERT INTO mentor_notifications
+(mentor_id, message)
+
+VALUES (?, ?)"
+
+);
+
+$notify->bind_param(
+"is",
+$mentor_id,
+$message
+);
+
+$notify->execute();
 ?>

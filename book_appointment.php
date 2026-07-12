@@ -3,6 +3,7 @@
 session_start();
 
 include "Includes/db.php";
+include "Includes/student_header.php";
 
 $student_id = $_SESSION['user_id'];
 
@@ -76,6 +77,41 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if($stmt->execute()){
 
+    if($stmt->execute()){
+
+    // mentor notification
+
+    $notifyMessage =
+    "A new appointment has been booked.";
+
+    $notify = $conn->prepare(
+
+    "INSERT INTO mentor_notifications
+    (mentor_id, message)
+
+    VALUES (?, ?)"
+
+    );
+
+    $notify->bind_param(
+    "is",
+    $mentor_id,
+    $notifyMessage
+    );
+
+    $notify->execute();
+
+    header(
+    "Location: book_appointment.php"
+    );
+
+    exit();
+
+}else{
+
+    echo "Failed to book appointment.";
+}
+
         header(
         "Location: book_appointment.php"
         );
@@ -100,9 +136,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     content="width=device-width, initial-scale=1.0">
 
     <title>Book Appointment</title>
+    <link rel="stylesheet"href="student_dashbord.css">
+     <link rel="stylesheet" href="student_dashbord.css">
 
-    <link rel="stylesheet"
-    href="book_appointment.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'rel='stylesheet'>
+    <link rel="stylesheet" href="book_appointment.css">
 
 </head>
 
@@ -295,6 +333,17 @@ if($appointmentResults->num_rows > 0){
     </div>
 
 </section>
+<script>
+
+let subMenu = document.getElementById("subMenu");
+
+function toggleMenu(){
+
+    subMenu.classList.toggle("open-menu");
+
+}
+
+</script>
 
 </body>
 

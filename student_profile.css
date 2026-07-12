@@ -1,0 +1,59 @@
+*body{
+    font-family:'Poppins',sans-serif;
+    background:#f4f7fc;
+}
+
+.profile-card,
+.gpa-card{
+    border:none;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s;
+    background:#fff;
+}
+
+.profile-card:hover,
+.gpa-card:hover{
+    transform:translateY(-5px);
+}
+
+.profile-img{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:50%;
+    border:5px solid #0D0B61;
+}
+
+.profile-card h3,
+.gpa-card h3{
+    color:#0D0B61;
+    font-weight:700;
+}
+
+.form-label{
+    font-weight:600;
+    color:#555;
+}
+
+.form-control,
+.form-select{
+    border-radius:12px;
+    min-height:48px;
+    margin-bottom:15px;
+    border:1px solid #d5d9e5;
+}
+
+
+.form-control:focus,
+.form-select:focus{
+    border-color:#0D0B61;
+    box-shadow:0 0 8px rgba(13,11,97,.2);
+}
+
+.btn{
+    border-radius:12px;
+    padding:12px;
+    font-weight:600;
+}

@@ -10,7 +10,7 @@
      rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
     rel='stylesheet'>
-    <title>Document</title>
+    <title>Login</title>
 
 </head>
 <body class="auth-page">

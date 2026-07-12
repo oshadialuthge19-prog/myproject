@@ -3,6 +3,7 @@
 session_start();
 include "Includes/db.php";
 
+
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mentor') {
     header("Location: login.php");
     exit();
@@ -72,6 +73,7 @@ $gpa_reports = $gpa_query->get_result();
 
 
     <!-- Navigation bar -->
+     <!-- bootstrap -->
 <nav class="navbar">
     <div class="navbar_container">
 
