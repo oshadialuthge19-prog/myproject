@@ -1,0 +1,410 @@
+/* ===============================
+   MENTOR HEADER
+================================ */
+
+.navbar {
+    width: 100%;
+    height: 80px;
+    background: #0D0B61;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+.navbar_container {
+    width: 100%;
+    max-width: 1400px;
+    height: 80px;
+    margin: 0 auto;
+    padding: 0 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#navbar_logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: white;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.logo {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+}
+
+.navbar_menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar_item {
+    display: flex;
+    align-items: center;
+}
+
+.navbar_links {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+
+    padding: 10px 18px;
+    border-radius: 8px;
+
+    transition: 0.3s;
+}
+
+.navbar_links:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+
+/* ===============================
+   PROFILE AREA
+================================ */
+
+.profile-menu {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.profile-icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    overflow: hidden;
+
+    border: 2px solid white;
+
+    transition: 0.3s;
+}
+
+.profile-icon:hover {
+    transform: scale(1.06);
+}
+
+.profile-icon i {
+    font-size: 29px;
+    color: #0D0B61;
+}
+
+
+/* ===============================
+   PROFILE DROPDOWN
+================================ */
+
+.sub-menu-wrap {
+    position: absolute;
+
+    top: 65px;
+    right: 0;
+
+    width: 260px;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(10px);
+
+    transition: 0.3s ease;
+
+    z-index: 10000;
+}
+
+.sub-menu-wrap.open-menu {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+.sub-menu {
+    background: white;
+
+    padding: 18px 22px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.18);
+}
+
+.sub-menu-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 13px 5px;
+
+    text-decoration: none;
+
+    color: #333;
+
+    border-radius: 8px;
+
+    transition: 0.3s;
+}
+
+.sub-menu-link p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.sub-menu-link i {
+    font-size: 25px;
+    color: #0D0B61;
+}
+
+.sub-menu-link:hover {
+    color: #0d6efd;
+
+    padding-left: 10px;
+}
+
+
+/* ===============================
+   NOTIFICATION
+================================ */
+
+.notification-menu {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+}
+
+.notification-icon {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.notification-icon i {
+    font-size: 25px;
+}
+
+.notification-icon:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.notification-count {
+    position: absolute;
+
+    top: -4px;
+    right: -4px;
+
+    min-width: 20px;
+    height: 20px;
+
+    padding: 0 5px;
+
+    border-radius: 50%;
+
+    background: #ff3b3b;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* ===============================
+   NOTIFICATION DROPDOWN
+================================ */
+
+.notification-dropdown {
+    position: absolute;
+
+    top: 58px;
+    right: 0;
+
+    width: 340px;
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.18);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(10px);
+
+    transition: 0.3s ease;
+
+    z-index: 10000;
+}
+
+.notification-dropdown.open-notifications {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+.notification-dropdown h3 {
+    color: #0D0B61;
+    font-size: 20px;
+    font-weight: 700;
+
+    margin-bottom: 15px;
+}
+
+.notification-item {
+    padding: 12px 0;
+
+    border-bottom: 1px solid #eee;
+}
+
+.notification-item p {
+    margin: 0 0 5px;
+
+    color: #333;
+
+    font-size: 14px;
+}
+
+.notification-item small {
+    color: #888;
+    font-size: 12px;
+}
+
+.mark-read-btn {
+    display: inline-block;
+
+    margin-top: 15px;
+
+    color: #0D0B61;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+/* ===============================
+   MOBILE MENU
+================================ */
+
+.navbar_toggle {
+    display: none;
+}
+
+.navbar_toggle .bar {
+    display: block;
+
+    width: 25px;
+    height: 3px;
+
+    margin: 5px auto;
+
+    background: white;
+
+    transition: 0.3s;
+}
+
+
+@media screen and (max-width: 960px) {
+
+    .navbar_container {
+        padding: 0 20px;
+    }
+
+    #navbar_logo {
+        font-size: 1.1rem;
+    }
+
+    .navbar_toggle {
+        display: block;
+        cursor: pointer;
+    }
+
+    .navbar_menu {
+        position: absolute;
+
+        top: 80px;
+        left: 0;
+
+        width: 100%;
+
+        display: none;
+        flex-direction: column;
+
+        background: #0D0B61;
+
+        padding: 25px 0;
+    }
+
+    .navbar_menu.active {
+        display: flex;
+    }
+
+    .profile-menu {
+        margin-left: auto;
+        margin-right: 15px;
+    }
+
+    .notification-dropdown {
+        position: fixed;
+
+        top: 90px;
+        left: 50%;
+
+        width: 90%;
+        max-width: 340px;
+
+        transform: translate(-50%, 10px);
+    }
+
+    .notification-dropdown.open-notifications {
+        transform: translate(-50%, 0);
+    }
+
+}

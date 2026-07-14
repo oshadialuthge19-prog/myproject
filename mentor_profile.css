@@ -1,0 +1,452 @@
+/* ==============================
+   PAGE
+============================== */
+
+body{
+    background:
+    linear-gradient(
+        135deg,
+        #f3f6ff,
+        #eef3fb
+    );
+
+    font-family:
+    'Poppins',
+    sans-serif;
+
+    min-height:100vh;
+}
+
+
+/* ==============================
+   PROFILE SECTION
+============================== */
+
+.mentor-profile-section{
+    padding:70px 20px;
+}
+
+
+/* ==============================
+   PAGE HEADING
+============================== */
+
+.profile-heading{
+    max-width:750px;
+    margin:0 auto 50px;
+}
+
+.profile-badge{
+    display:inline-block;
+
+    background:rgba(13,11,97,.1);
+
+    color:#0D0B61;
+
+    padding:8px 18px;
+
+    border-radius:50px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    margin-bottom:15px;
+}
+
+.profile-heading h1{
+    color:#0D0B61;
+
+    font-size:42px;
+
+    font-weight:700;
+
+    margin-bottom:15px;
+}
+
+.profile-heading p{
+    color:#6c757d;
+
+    font-size:17px;
+
+    line-height:1.7;
+}
+
+
+/* ==============================
+   ALERT
+============================== */
+
+.profile-alert{
+    max-width:800px;
+
+    margin:0 auto 30px;
+
+    border-radius:15px;
+}
+
+
+/* ==============================
+   PROFILE CARDS
+============================== */
+
+.profile-card{
+    background:#ffffff;
+
+    border-radius:24px;
+
+    padding:35px;
+
+    box-shadow:
+    0 15px 45px
+    rgba(13,11,97,.08);
+
+    border:
+    1px solid
+    rgba(13,11,97,.05);
+
+    transition:
+    transform .3s ease,
+    box-shadow .3s ease;
+}
+
+.profile-card:hover{
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 20px 55px
+    rgba(13,11,97,.13);
+}
+
+
+/* ==============================
+   CARD TITLE
+============================== */
+
+.card-title-area{
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:30px;
+}
+
+.title-icon{
+    width:55px;
+
+    height:55px;
+
+    border-radius:15px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #0D0B61,
+        #6482AD
+    );
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:27px;
+}
+
+.card-title-area h2{
+    margin:0;
+
+    color:#0D0B61;
+
+    font-size:22px;
+
+    font-weight:700;
+}
+
+.card-title-area p{
+    margin:5px 0 0;
+
+    color:#8a8a9a;
+
+    font-size:14px;
+}
+
+
+/* ==============================
+   PROFILE IMAGE
+============================== */
+
+.profile-image-area{
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-bottom:30px;
+}
+
+.profile-image{
+    width:145px;
+
+    height:145px;
+
+    border-radius:50%;
+
+    overflow:hidden;
+
+    background:#eef1f8;
+
+    border:5px solid #ffffff;
+
+    box-shadow:
+    0 8px 25px
+    rgba(13,11,97,.2);
+
+    margin-bottom:18px;
+}
+
+.profile-image img{
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+.default-profile{
+    width:100%;
+
+    height:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#0D0B61;
+
+    font-size:65px;
+}
+
+.upload-btn{
+    background:#eef1ff;
+
+    color:#0D0B61;
+
+    padding:10px 20px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    transition:.3s;
+}
+
+.upload-btn:hover{
+    background:#0D0B61;
+
+    color:white;
+
+    transform:translateY(-2px);
+}
+
+
+/* ==============================
+   FORM
+============================== */
+
+.form-group{
+    margin-bottom:20px;
+}
+
+.form-label{
+    color:#404050;
+
+    font-weight:600;
+
+    font-size:14px;
+
+    margin-bottom:8px;
+}
+
+.form-label i{
+    color:#0D0B61;
+
+    margin-right:5px;
+}
+
+.form-control,
+.form-select{
+    border:
+    1px solid
+    #dfe3ed;
+
+    border-radius:12px;
+
+    min-height:50px;
+
+    padding:12px 15px;
+
+    font-size:15px;
+
+    transition:.3s;
+}
+
+textarea.form-control{
+    min-height:auto;
+
+    resize:none;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color:#6482AD;
+
+    box-shadow:
+    0 0 0 4px
+    rgba(100,130,173,.15);
+}
+
+
+/* ==============================
+   PHONE
+============================== */
+
+.input-group-text{
+    background:#0D0B61;
+
+    color:white;
+
+    border:none;
+
+    border-radius:
+    12px 0 0 12px;
+
+    font-weight:600;
+
+    padding:0 18px;
+}
+
+.input-group .form-control{
+    border-radius:
+    0 12px 12px 0;
+}
+
+
+/* ==============================
+   SAVE AREA
+============================== */
+
+.save-area{
+    display:flex;
+
+    justify-content:center;
+
+    margin-top:45px;
+}
+
+.save-btn{
+    min-width:300px;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:16px 35px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #0D0B61,
+        #3532a5
+    );
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 10px 25px
+    rgba(13,11,97,.25);
+
+    transition:.3s;
+}
+
+.save-btn i{
+    font-size:22px;
+}
+
+.save-btn:hover{
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 15px 35px
+    rgba(13,11,97,.35);
+}
+
+
+/* ==============================
+   RESPONSIVE
+============================== */
+
+@media(max-width:991px){
+
+    .mentor-profile-section{
+        padding:50px 15px;
+    }
+
+    .profile-heading h1{
+        font-size:34px;
+    }
+
+}
+
+
+@media(max-width:576px){
+
+    .profile-card{
+        padding:25px 20px;
+    }
+
+    .profile-heading h1{
+        font-size:29px;
+    }
+
+    .save-btn{
+        min-width:100%;
+    }
+
+    .card-title-area{
+        align-items:flex-start;
+    }
+
+}

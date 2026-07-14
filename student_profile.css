@@ -1,59 +1,748 @@
-*body{
+/* =========================================
+   STUDENT PROFILE PAGE
+========================================= */
+
+.student-profile-page{
+    min-height:100vh;
+    background:#f5f7fb;
+    padding:45px 30px 70px;
     font-family:'Poppins',sans-serif;
-    background:#f4f7fc;
 }
 
-.profile-card,
-.gpa-card{
-    border:none;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    transition:.3s;
-    background:#fff;
+.profile-page-container{
+    width:100%;
+    max-width:1400px;
+    margin:0 auto;
 }
 
-.profile-card:hover,
-.gpa-card:hover{
-    transform:translateY(-5px);
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.profile-page-header{
+    min-height:220px;
+    background:linear-gradient(
+        135deg,
+        #0D0B61 0%,
+        #1c237f 50%,
+        #6482AD 100%
+    );
+    border-radius:24px;
+    padding:42px 48px;
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 18px 45px rgba(13,11,97,.18);
 }
 
-.profile-img{
-    width:120px;
-    height:120px;
-    object-fit:cover;
+.profile-page-header::before{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
     border-radius:50%;
-    border:5px solid #0D0B61;
+    background:rgba(255,255,255,.07);
+    right:-80px;
+    top:-150px;
 }
 
-.profile-card h3,
-.gpa-card h3{
+.profile-page-header::after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    right:180px;
+    bottom:-130px;
+}
+
+.profile-page-header > div{
+    position:relative;
+    z-index:2;
+}
+
+.page-eyebrow{
+    display:inline-block;
+    padding:7px 14px;
+    border-radius:50px;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.18);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    margin-bottom:15px;
+}
+
+.profile-page-header h1{
+    margin:0 0 12px;
+    font-size:38px;
+    font-weight:700;
+    letter-spacing:-.5px;
+}
+
+.profile-page-header p{
+    margin:0;
+    max-width:620px;
+    color:rgba(255,255,255,.82);
+    font-size:15px;
+    line-height:1.8;
+}
+
+.header-decoration{
+    width:105px;
+    height:105px;
+    border-radius:24px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.15);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    backdrop-filter:blur(8px);
+}
+
+.header-decoration i{
+    font-size:60px;
+}
+
+
+/* =========================================
+   SUCCESS ALERT
+========================================= */
+
+.profile-success-alert{
+    border:0;
+    border-left:4px solid #198754;
+    border-radius:12px;
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:500;
+    margin-bottom:25px;
+}
+
+.profile-success-alert > i{
+    font-size:23px;
+}
+
+
+/* =========================================
+   PROFILE GRID
+========================================= */
+
+.profile-content-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1.15fr) minmax(400px,.85fr);
+    gap:28px;
+    align-items:start;
+}
+
+
+/* =========================================
+   CARDS
+========================================= */
+
+.student-profile-card,
+.student-gpa-card{
+    background:#fff;
+    border:1px solid #e9edf5;
+    border-radius:22px;
+    padding:30px;
+    box-shadow:0 10px 35px rgba(24,39,75,.06);
+}
+
+.student-profile-card{
+    min-width:0;
+}
+
+.student-gpa-card{
+    position:sticky;
+    top:105px;
+}
+
+
+/* =========================================
+   CARD HEADINGS
+========================================= */
+
+.card-section-heading{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding-bottom:22px;
+    margin-bottom:26px;
+    border-bottom:1px solid #edf0f6;
+}
+
+.heading-icon{
+    width:50px;
+    height:50px;
+    min-width:50px;
+    border-radius:14px;
+    background:#eef1ff;
     color:#0D0B61;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.heading-icon i{
+    font-size:26px;
+}
+
+.card-section-heading h2{
+    margin:0 0 5px;
+    color:#171a2b;
+    font-size:20px;
     font-weight:700;
 }
 
-.form-label{
-    font-weight:600;
-    color:#555;
+.card-section-heading p{
+    margin:0;
+    color:#8a91a3;
+    font-size:13px;
 }
 
-.form-control,
-.form-select{
-    border-radius:12px;
-    min-height:48px;
+
+/* =========================================
+   PROFILE PHOTO
+========================================= */
+
+.student-photo-section{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    padding:5px 0 28px;
+}
+
+.student-photo-wrapper{
+    width:125px;
+    height:125px;
+    min-width:125px;
+    position:relative;
+}
+
+.student-profile-image,
+.default-student-avatar{
+    width:125px;
+    height:125px;
+    border-radius:50%;
+    border:5px solid #eef1ff;
+    box-shadow:0 8px 25px rgba(13,11,97,.15);
+}
+
+.student-profile-image{
+    object-fit:cover;
+}
+
+.default-student-avatar{
+    background:linear-gradient(
+        135deg,
+        #0D0B61,
+        #6482AD
+    );
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.default-student-avatar i{
+    font-size:58px;
+}
+
+.photo-camera-button{
+    position:absolute;
+    right:2px;
+    bottom:4px;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#0D0B61;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    border:3px solid #fff;
+    transition:.25s;
+}
+
+.photo-camera-button:hover{
+    background:#6482AD;
+    transform:scale(1.08);
+}
+
+.photo-camera-button i{
+    font-size:18px;
+}
+
+.student-photo-info h3{
+    margin:0 0 6px;
+    color:#171a2b;
+    font-size:22px;
+    font-weight:700;
+}
+
+.student-photo-info span{
+    display:block;
+    color:#8a91a3;
+    font-size:14px;
     margin-bottom:15px;
-    border:1px solid #d5d9e5;
 }
 
-
-.form-control:focus,
-.form-select:focus{
-    border-color:#0D0B61;
-    box-shadow:0 0 8px rgba(13,11,97,.2);
-}
-
-.btn{
-    border-radius:12px;
-    padding:12px;
+.change-photo-button{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 15px;
+    border-radius:9px;
+    border:1px solid #dfe4f1;
+    color:#0D0B61;
+    font-size:13px;
     font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.change-photo-button:hover{
+    background:#eef1ff;
+    border-color:#cdd4f7;
+}
+
+.profile-divider{
+    height:1px;
+    background:#edf0f6;
+    margin-bottom:26px;
+}
+
+
+/* =========================================
+   STUDENT FORM
+========================================= */
+
+.student-form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px;
+}
+
+.student-form-group{
+    min-width:0;
+}
+
+.student-form-group.full-width{
+    grid-column:1 / -1;
+}
+
+.student-form-group label,
+.gpa-semester-area label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:9px;
+    color:#3c4355;
+    font-size:13px;
+    font-weight:600;
+}
+
+.student-form-group label i,
+.gpa-semester-area label i{
+    color:#0D0B61;
+    font-size:17px;
+}
+
+.student-form-group input,
+.student-form-group select,
+.student-form-group textarea,
+.gpa-semester-area select{
+    width:100%;
+    border:1px solid #dfe4ed;
+    border-radius:11px;
+    background:#fafbfe;
+    color:#252a3a;
+    font-family:'Poppins',sans-serif;
+    font-size:14px;
+    outline:none;
+    transition:.25s;
+}
+
+.student-form-group input,
+.student-form-group select,
+.gpa-semester-area select{
+    height:50px;
+    padding:0 15px;
+}
+
+.student-form-group textarea{
+    padding:14px 15px;
+    resize:vertical;
+    line-height:1.6;
+}
+
+.student-form-group input:focus,
+.student-form-group select:focus,
+.student-form-group textarea:focus,
+.gpa-semester-area select:focus{
+    border-color:#6482AD;
+    background:#fff;
+    box-shadow:0 0 0 4px rgba(100,130,173,.12);
+}
+
+.student-form-group input::placeholder,
+.student-form-group textarea::placeholder{
+    color:#adb3c2;
+}
+
+
+/* =========================================
+   SAVE BUTTON
+========================================= */
+
+.student-save-button{
+    width:100%;
+    height:53px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(
+        135deg,
+        #0D0B61,
+        #27318f
+    );
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    font-family:'Poppins',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:27px;
+    box-shadow:0 10px 25px rgba(13,11,97,.18);
+    transition:.3s;
+}
+
+.student-save-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 30px rgba(13,11,97,.25);
+}
+
+.student-save-button i{
+    font-size:20px;
+}
+
+
+/* =========================================
+   GPA SEMESTER
+========================================= */
+
+.gpa-semester-area{
+    margin-bottom:27px;
+}
+
+.gpa-semester-area select{
+    width:100%;
+}
+
+
+/* =========================================
+   SUBJECT SECTION
+========================================= */
+
+.subject-list-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.subject-list-heading h3{
+    margin:0 0 4px;
+    color:#202536;
+    font-size:17px;
+    font-weight:700;
+}
+
+.subject-list-heading p{
+    margin:0;
+    color:#959bad;
+    font-size:12px;
+}
+
+.subject-list-heading span{
+    padding:6px 10px;
+    border-radius:7px;
+    background:#eef1ff;
+    color:#0D0B61;
+    font-size:11px;
+    font-weight:600;
+}
+
+.subject-column-labels{
+    display:grid;
+    grid-template-columns:1.4fr .6fr;
+    gap:12px;
+    margin-bottom:8px;
+}
+
+.subject-column-labels span{
+    color:#858c9e;
+    font-size:11px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+}
+
+.subject-row{
+    display:grid;
+    grid-template-columns:1.4fr .6fr;
+    gap:12px;
+    margin-bottom:12px;
+}
+
+.subject-row select,
+.subject-row input{
+    width:100%;
+    height:48px;
+    border:1px solid #dfe4ed;
+    border-radius:10px;
+    background:#fafbfe;
+    padding:0 13px;
+    color:#303648;
+    font-family:'Poppins',sans-serif;
+    font-size:13px;
+    outline:none;
+    transition:.25s;
+}
+
+.subject-row select:focus,
+.subject-row input:focus{
+    border-color:#6482AD;
+    background:#fff;
+    box-shadow:0 0 0 4px rgba(100,130,173,.1);
+}
+
+
+/* =========================================
+   ADD SUBJECT BUTTON
+========================================= */
+
+.add-subject-button{
+    width:100%;
+    height:47px;
+    border:1px dashed #9ba8cf;
+    border-radius:10px;
+    background:#f8f9ff;
+    color:#0D0B61;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    font-family:'Poppins',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+    margin:5px 0 28px;
+}
+
+.add-subject-button:hover{
+    background:#eef1ff;
+    border-color:#0D0B61;
+}
+
+.add-subject-button i{
+    font-size:20px;
+}
+
+
+/* =========================================
+   GPA DISPLAY
+========================================= */
+
+.professional-gpa-display{
+    background:linear-gradient(
+        135deg,
+        #0D0B61,
+        #252e86,
+        #6482AD
+    );
+    border-radius:20px;
+    padding:32px 28px;
+    text-align:center;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+}
+
+.professional-gpa-display::before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.06);
+    right:-80px;
+    top:-90px;
+}
+
+.gpa-result-icon{
+    width:55px;
+    height:55px;
+    margin:0 auto 16px;
+    border-radius:15px;
+    background:rgba(255,255,255,.13);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+
+.gpa-result-icon i{
+    font-size:30px;
+}
+
+.gpa-label{
+    margin:0 0 5px;
+    color:rgba(255,255,255,.72);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:1.4px;
+}
+
+.professional-gpa-display h1{
+    margin:0;
+    font-size:48px;
+    font-weight:700;
+    position:relative;
+}
+
+.professional-gpa-display h1 span{
+    font-size:17px;
+    color:rgba(255,255,255,.65);
+    font-weight:400;
+}
+
+.gpa-progress-track{
+    width:100%;
+    height:7px;
+    background:rgba(255,255,255,.17);
+    border-radius:20px;
+    margin:22px 0 17px;
+    overflow:hidden;
+    position:relative;
+}
+
+.gpa-progress-bar{
+    width:0%;
+    height:100%;
+    background:#fff;
+    border-radius:20px;
+    transition:width .4s ease;
+}
+
+.performance-message{
+    margin:0;
+    font-size:14px;
+    font-weight:500;
+    position:relative;
+}
+
+
+/* =========================================
+   GPA INFO
+========================================= */
+
+.gpa-info-box{
+    display:flex;
+    gap:11px;
+    align-items:flex-start;
+    margin-top:20px;
+    padding:15px;
+    background:#f5f7fc;
+    border-radius:11px;
+}
+
+.gpa-info-box i{
+    color:#6482AD;
+    font-size:21px;
+    margin-top:1px;
+}
+
+.gpa-info-box p{
+    margin:0;
+    color:#747b8d;
+    font-size:12px;
+    line-height:1.6;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:1100px){
+
+    .profile-content-grid{
+        grid-template-columns:1fr;
+    }
+
+    .student-gpa-card{
+        position:static;
+    }
+
+}
+
+
+@media(max-width:700px){
+
+    .student-profile-page{
+        padding:25px 15px 50px;
+    }
+
+    .profile-page-header{
+        padding:30px 25px;
+        min-height:auto;
+    }
+
+    .profile-page-header h1{
+        font-size:29px;
+    }
+
+    .header-decoration{
+        display:none;
+    }
+
+    .student-profile-card,
+    .student-gpa-card{
+        padding:22px 18px;
+        border-radius:17px;
+    }
+
+    .student-photo-section{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .student-form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .student-form-group.full-width{
+        grid-column:auto;
+    }
+
+    .subject-row,
+    .subject-column-labels{
+        grid-template-columns:1fr 1fr;
+    }
+
 }

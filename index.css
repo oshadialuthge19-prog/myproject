@@ -441,107 +441,265 @@ body{
 }
 
 /* mentor section */
-.services{
-    /* background: #0D0B61;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* =================================
+   MENTOR SECTION
+================================= */
+
+.mentor-section{
+    position: relative;
+    padding: 120px 0;
+    background:
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(100,130,173,.25),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(137,168,178,.18),
+            transparent 30%
+        ),
+        #0D0B61;
+
+    overflow: hidden;
+}
+
+
+/* HEADING */
+
+.mentor-heading{
+    max-width: 700px;
+    margin: 0 auto 70px;
+    text-align: center;
+}
+
+.section-label{
+    display: inline-block;
+    color: #89A8B2;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.mentor-heading h1{
+    color: white;
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.mentor-heading h1 span{
+    color: #89A8B2;
+}
+
+.mentor-heading p{
+    color: rgba(255,255,255,.75);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+
+/* MENTOR CARD */
+
+.mentor-card{
+    position: relative;
     height: 100%;
-    padding: 10rem 0;
-    flex-direction: column; */
-    
-    background: #0D0B61;
+    padding: 45px 30px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+    text-align: center;
+    overflow: hidden;
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease,
+        border-color .4s ease;
+}
+
+
+.mentor-card:hover{
+    transform: translateY(-15px);
+    border-color: rgba(137,168,178,.8);
+    box-shadow:0 25px 50px rgba(0,0,0,.3);
+}
+
+
+/* FLOATING AVATAR */
+
+.mentor-avatar{
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10rem 0;
-    flex-direction: column;
+    background: linear-gradient(
+        135deg,
+        #89A8B2,
+        #6482AD
+    );
+    box-shadow:0 15px 30px rgba(0,0,0,.25);
+    animation: mentorFloat 4s ease-in-out infinite;
+}
+
+.mentor-avatar i{
+    color: white;
+    font-size: 55px;
 }
 
 
-.services h1{
-    color: #fff;
-    background: 100%;
-    margin-bottom: 5rem;
-    font-size: 2.5rem;
+@keyframes mentorFloat{
+
+    0%,
+    100%{
+        transform: translateY(0);
+    }
+
+    50%{
+        transform: translateY(-12px);
+    }
+
 }
 
-.services_wrapper{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr;
-    
+
+/* CARD GLOW */
+
+.mentor-card-glow{
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    top: -100px;
+    right: -100px;
+    background: rgba(137,168,178,.25);
+    border-radius: 50%;
+    filter: blur(20px);
+    transition: .5s;
 }
 
-.services_card{
-    margin: 10px;
-    height: 425px;
-    width: 300px;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
+.mentor-card:hover .mentor-card-glow{
+    transform: scale(1.8);
+}
+
+
+/* STATUS */
+
+.mentor-status{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #dce8ed;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.status-dot{
+    width: 8px;
+    height: 8px;
+    background: #70e000;
+    border-radius: 50%;
+    box-shadow:0 0 10px #70e000;
+}
+
+
+/* MENTOR INFO */
+
+.mentor-info h2{
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.mentor-role{
+    color: #89A8B2;
+    font-weight: 600;
+}
+
+.mentor-description{
+    color: rgba(255,255,255,.7);
+    line-height: 1.7;
+    margin: 20px 0 30px;
+}
+
+
+/* CONNECT BUTTON */
+
+.mentor-button{
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    color: #fff;
-    transition: 0.3s ease-in;
+    gap: 10px;
+    padding: 12px 25px;
+    border-radius: 30px;
+    background: white;
+    color: #0D0B61;
+    text-decoration: none;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.mentor-button i{
+    font-size: 22px;
+    transition: .3s;
+}
+
+.mentor-button:hover{
     background: #89A8B2;
+    color: white;
+    transform: translateY(-3px);
 }
 
-/* .services_card:nth-child(2){
-    transform: translateY(-10px);
-    transition: 0.3s ease-in;
-} */
+.mentor-button:hover i{
+    transform: translateX(6px);
+}
 
-.services_card h2{
+
+/* NO MENTORS */
+
+.no-mentors{
+    color: white;
     text-align: center;
-}
-.services_card h3{
-    text-align: center;
-    margin-bottom: 1rem;
+    padding: 60px;
 }
 
-.services_card p{
-    text-align: center;
-    margin-top: 24px;
-    font-size: 20px;
+.no-mentors i{
+    font-size: 70px;
+    color: #89A8B2;
 }
 
-.services_btn{
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
+
+/* SCROLL ANIMATION */
+
+.mentor-reveal{
+    opacity: 0;
+    transform: translateY(60px);
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+    transition-delay: var(--delay);
 }
 
-.services_card button{
-    color:#fff;
-    padding: 10px 20px;
-    border: none;
-    outline: none;
-    border-radius: 4px;
-    background: #0D0B61;
-    font-size: 1rem;
+.mentor-reveal.active{
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.services_card button:hover{
-    cursor: pointer;
-}
 
-.services_card:hover{
-    transform: scale(1.075);
-    transition: 0.3s ease-in;
-    cursor: pointer;
-}
+/* MOBILE */
 
-@media screen and (max-width: 1300px) {
-    .services_wrapper{
-        grid-template-columns: 1fr 1fr;
+@media screen and (max-width:768px){
+
+    .mentor-section{
+        padding: 80px 20px;
     }
-}
 
-    @media screen and (max-width: 768px) {
-    .services_wrapper{
-         grid-template-columns: 1fr;
+    .mentor-heading h1{
+        font-size: 2.5rem;
     }
-        
+
 }
 
 
