@@ -29,7 +29,6 @@ $message = "";
 $messageType = "";
 
 
-
 /* ========================================
    BOOK APPOINTMENT
 ======================================== */
@@ -57,9 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     );
 
 
-
-    /* VALIDATE */
-
+    /* ========================================
+       VALIDATE APPOINTMENT
+    ======================================== */
 
     if (
         $mentor_id <= 0
@@ -81,10 +80,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
 
 
-        $stmt = $conn->prepare(
+        /* ========================================
+           INSERT APPOINTMENT
+        ======================================== */
 
-            "INSERT INTO appointments
+        $stmt = $conn->prepare("
 
+            INSERT INTO appointments
             (
                 student_id,
                 mentor_id,
@@ -93,9 +95,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 message
             )
 
-            VALUES (?, ?, ?, ?, ?)"
+            VALUES (?, ?, ?, ?, ?)
 
-        );
+        ");
 
 
         $stmt->bind_param(
@@ -111,41 +113,58 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         );
 
 
-
         if ($stmt->execute()) {
 
 
             /* ========================================
-               MENTOR NOTIFICATION
+               GET APPOINTMENT ID
             ======================================== */
 
-
-            $notifyMessage =
-
-            "A student has booked a new mentoring appointment.";
+            $appointment_id =
+            $conn->insert_id;
 
 
+            /* ========================================
+               CREATE MENTOR NOTIFICATION
+            ======================================== */
 
-            $notify = $conn->prepare(
+            $notification_type =
+            "appointment";
 
-                "INSERT INTO mentor_notifications
 
+            $notification_message =
+            "A student has booked a new appointment.";
+
+
+            $notification_link =
+            "mentor_appointment.php";
+
+
+            $notify = $conn->prepare("
+
+                INSERT INTO system_notifications
                 (
-                    mentor_id,
-                    message
+                    user_id,
+                    type,
+                    message,
+                    related_id,
+                    notification_link
                 )
 
-                VALUES (?, ?)"
+                VALUES (?, ?, ?, ?, ?)
 
-            );
+            ");
 
 
             $notify->bind_param(
 
-                "is",
+                "issis",
 
                 $mentor_id,
-                $notifyMessage
+                $notification_type,
+                $notification_message,
+                $appointment_id,
+                $notification_link
 
             );
 
@@ -153,17 +172,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $notify->execute();
 
 
+            /* ========================================
+               SUCCESS MESSAGE
+            ======================================== */
 
             $_SESSION['appointment_message'] =
-
             "Your appointment request has been submitted successfully.";
 
 
-
             header(
-
                 "Location: book_appointment.php"
-
             );
 
 
@@ -174,20 +192,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             $message =
-
             "Unable to book your appointment. Please try again.";
 
 
             $messageType =
-
             "danger";
+
 
         }
 
+
     }
 
-}
 
+}
 
 
 /* ========================================
@@ -200,50 +218,45 @@ if (
 
 
     $message =
-
     $_SESSION['appointment_message'];
 
 
     $messageType =
-
     "success";
 
 
     unset(
-
         $_SESSION['appointment_message']
-
     );
 
-}
 
+}
 
 
 /* ========================================
    FETCH MENTORS
 ======================================== */
 
-$mentors = $conn->query(
+$mentors = $conn->query("
 
-    "SELECT usersId, usersName
+    SELECT usersId, usersName
 
     FROM users
 
     WHERE role = 'mentor'
 
-    ORDER BY usersName ASC"
+    ORDER BY usersName ASC
 
-);
-
+");
 
 
 /* ========================================
    FETCH APPOINTMENT HISTORY
 ======================================== */
 
-$appointmentHistory = $conn->prepare(
+$appointmentHistory = $conn->prepare("
 
-    "SELECT
+    SELECT
 
         appointments.*,
 
@@ -261,9 +274,9 @@ $appointmentHistory = $conn->prepare(
 
         appointment_date DESC,
 
-        appointment_time DESC"
+        appointment_time DESC
 
-);
+");
 
 
 $appointmentHistory->bind_param(
@@ -281,7 +294,6 @@ $appointmentHistory->execute();
 $appointmentResults =
 
 $appointmentHistory->get_result();
-
 
 
 /* ========================================

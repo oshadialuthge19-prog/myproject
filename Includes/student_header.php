@@ -184,7 +184,7 @@ $navResult->fetch_assoc();
 
         
 
-            <a href="#" class="sub-menu-link">
+            <a href="student_messages.php" class="sub-menu-link">
                 <i class='bx bx-message-detail'></i>
                 <p>Messages</p>
             </a>

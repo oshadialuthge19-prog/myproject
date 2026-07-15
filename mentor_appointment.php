@@ -4,233 +4,794 @@ session_start();
 
 include "Includes/db.php";
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mentor') {
+
+/* =========================================
+   MENTOR AUTHENTICATION
+========================================= */
+
+if (
+    !isset($_SESSION['role']) ||
+    $_SESSION['role'] !== 'mentor'
+) {
+
     header("Location: login.php");
     exit();
+
 }
+
 
 $mentor_id = $_SESSION['user_id'];
 
-// fetch appointments
 
-$appointment_query = $conn->prepare(
+/* =========================================
+   FETCH APPOINTMENTS
+========================================= */
 
-"SELECT appointments.*,
-users.usersName
+$appointment_query = $conn->prepare("
 
-FROM appointments
+    SELECT
+        appointments.*,
+        users.usersName
 
-JOIN users
-ON appointments.student_id = users.usersId
+    FROM appointments
 
-WHERE appointments.mentor_id=?
+    JOIN users
+        ON appointments.student_id = users.usersId
 
-ORDER BY appointment_date ASC"
+    WHERE appointments.mentor_id = ?
 
-);
+    ORDER BY
+        appointments.appointment_date ASC,
+        appointments.appointment_time ASC
+
+");
+
 
 $appointment_query->bind_param(
-"i",
-$mentor_id
+    "i",
+    $mentor_id
 );
+
 
 $appointment_query->execute();
 
+
 $appointments =
-$appointment_query->get_result();
+    $appointment_query->get_result();
+
+
+
+/* =========================================
+   APPOINTMENT STATISTICS
+========================================= */
+
+$statsQuery = $conn->prepare("
+
+    SELECT
+
+        COUNT(*) AS total,
+
+        SUM(
+            CASE
+                WHEN status = 'Pending'
+                THEN 1
+                ELSE 0
+            END
+        ) AS pending,
+
+        SUM(
+            CASE
+                WHEN status = 'Approved'
+                THEN 1
+                ELSE 0
+            END
+        ) AS approved,
+
+        SUM(
+            CASE
+                WHEN status = 'Rejected'
+                THEN 1
+                ELSE 0
+            END
+        ) AS rejected
+
+    FROM appointments
+
+    WHERE mentor_id = ?
+
+");
+
+
+$statsQuery->bind_param(
+    "i",
+    $mentor_id
+);
+
+
+$statsQuery->execute();
+
+
+$stats =
+    $statsQuery
+    ->get_result()
+    ->fetch_assoc();
+
+
+$totalAppointments =
+    (int)($stats['total'] ?? 0);
+
+
+$pendingAppointments =
+    (int)($stats['pending'] ?? 0);
+
+
+$approvedAppointments =
+    (int)($stats['approved'] ?? 0);
+
+
+$rejectedAppointments =
+    (int)($stats['rejected'] ?? 0);
 
 ?>
 
+
 <!DOCTYPE html>
+
 <html lang="en">
+
+
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="Includes/footer.css">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+
+<title>
+    Appointment Management
+</title>
+
+
+<!-- Bootstrap -->
+
 <link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
 
-<link rel="stylesheet" href="mentor_appointments.css">
 
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- Boxicons -->
 
-<title>Mentor Appointments</title>
+<link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+>
+
+
+<!-- Font Awesome -->
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+
+<!-- Mentor Dashboard / Header -->
+
+<link
+    rel="stylesheet"
+    href="mentor_dashbord.css"
+>
+
+<link
+    rel="stylesheet"
+    href="Includes/mentor_header.css"
+>
+
+
+<!-- Appointment CSS -->
+
+<link
+    rel="stylesheet"
+    href="mentor_appointments.css"
+>
+
+
+<!-- Footer -->
+
+<link
+    rel="stylesheet"
+    href="Includes/footer.css"
+>
+
 
 </head>
 
+
 <body>
 
-<section class="appointments-section">
 
-<div class="appointments-container">
+<?php include "Includes/mentor_header.php"; ?>
 
-<h1>Student Appointments</h1>
 
-<div class="appointments-grid">
+<main class="appointment-page">
 
-<?php
 
-if($appointments->num_rows > 0){
+<!-- =========================================
+     PAGE HERO
+========================================= -->
 
-while($appointment =
-$appointments->fetch_assoc()){
+<section class="appointment-hero">
 
-?>
+    <div class="appointment-hero-content">
 
-<div class="appointment-card">
+        <div class="hero-text">
 
-<h2>
+            <span class="page-badge">
 
-<?php
-echo $appointment['usersName'];
-?>
+                <i class='bx bx-calendar-check'></i>
 
-</h2>
+                Mentoring Sessions
 
-<p>
+            </span>
 
-Date:
-<?php
-echo $appointment['appointment_date'];
-?>
 
-</p>
+            <h1>
 
-<p>
+                Appointment Management
 
-Time:
-<?php
-echo $appointment['appointment_time'];
-?>
+            </h1>
 
-</p>
 
-<p>
+            <p>
 
-<?php
-echo $appointment['message'];
-?>
+                Review and manage student mentoring
+                session requests from one place.
 
-</p>
+            </p>
 
-<span class="status-badge 
+        </div>
 
-<?php
 
-if($appointment['status'] == 'Approved'){
+        <div class="hero-decoration">
 
-    echo 'approved';
+            <i class='bx bx-calendar-event'></i>
 
-}else if($appointment['status'] == 'Rejected'){
+        </div>
 
-    echo 'rejected';
+    </div>
 
-}else{
 
-    echo 'pending';
-}
+    <!-- STATISTICS -->
 
-?>
 
-">
+    <div class="appointment-stats">
 
-<?php
-echo $appointment['status'];
-?>
 
-</span>
+        <div class="appointment-stat-card">
 
-<div class="appointment-actions">
+            <div class="stat-icon total-icon">
 
-<form action="update_appointment.php"
-method="POST">
+                <i class='bx bx-calendar'></i>
 
-<input type="hidden"
-name="appointment_id"
+            </div>
 
-value="<?php
-echo $appointment['id'];
-?>">
 
-<button
-type="submit"
-name="status"
-value="Approved"
+            <div>
 
-class="approve-btn">
+                <span>
+                    Total Requests
+                </span>
 
-Approve
+                <h2>
+                    <?php echo $totalAppointments; ?>
+                </h2>
 
-</button>
+            </div>
 
-<button
-type="submit"
-name="status"
-value="Rejected"
+        </div>
 
-class="reject-btn">
 
-Reject
 
-</button>
+        <div class="appointment-stat-card">
 
-</form>
+            <div class="stat-icon pending-icon">
 
-</div>
+                <i class='bx bx-time-five'></i>
 
-</div>
+            </div>
 
-<?php
 
-}
+            <div>
 
-}else{
+                <span>
+                    Pending
+                </span>
 
-echo "
+                <h2>
+                    <?php echo $pendingAppointments; ?>
+                </h2>
 
-<h3>
-No appointments yet.
-</h3>
+            </div>
 
-";
+        </div>
 
-}
 
-?>
 
-</div>
+        <div class="appointment-stat-card">
 
-</div>
+            <div class="stat-icon approved-icon">
+
+                <i class='bx bx-check-circle'></i>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Approved
+                </span>
+
+                <h2>
+                    <?php echo $approvedAppointments; ?>
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="appointment-stat-card">
+
+            <div class="stat-icon rejected-icon">
+
+                <i class='bx bx-x-circle'></i>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Rejected
+                </span>
+
+                <h2>
+                    <?php echo $rejectedAppointments; ?>
+                </h2>
+
+            </div>
+
+        </div>
+
+
+    </div>
 
 </section>
 
+
+
+<!-- =========================================
+     APPOINTMENT REQUESTS
+========================================= -->
+
+<section class="appointment-content">
+
+
+    <div class="section-heading">
+
+
+        <div>
+
+            <span class="section-label">
+
+                APPOINTMENT REQUESTS
+
+            </span>
+
+
+            <h2>
+
+                Student Session Requests
+
+            </h2>
+
+
+            <p>
+
+                Review student requests and update
+                their appointment status.
+
+            </p>
+
+        </div>
+
+
+        <div class="request-count">
+
+            <?php echo $totalAppointments; ?>
+
+            <?php
+
+            echo $totalAppointments === 1
+                ? "Request"
+                : "Requests";
+
+            ?>
+
+        </div>
+
+
+    </div>
+
+
+
+    <?php if ($appointments->num_rows > 0) { ?>
+
+
+        <div class="appointments-grid">
+
+
+        <?php
+
+        while (
+            $appointment =
+            $appointments->fetch_assoc()
+        ) {
+
+            $status =
+                strtolower(
+                    $appointment['status']
+                );
+
+        ?>
+
+
+        <article class="appointment-card">
+
+
+            <!-- CARD HEADER -->
+
+
+            <div class="appointment-card-header">
+
+
+                <div class="student-avatar">
+
+                    <?php
+
+                    echo strtoupper(
+                        substr(
+                            $appointment['usersName'],
+                            0,
+                            1
+                        )
+                    );
+
+                    ?>
+
+                </div>
+
+
+                <div class="student-details">
+
+                    <h3>
+
+                        <?php
+
+                        echo htmlspecialchars(
+                            $appointment['usersName']
+                        );
+
+                        ?>
+
+                    </h3>
+
+
+                    <p>
+
+                        Student Appointment Request
+
+                    </p>
+
+                </div>
+
+
+                <span
+                    class="status-badge
+                    <?php echo $status; ?>"
+                >
+
+                    <span class="status-dot"></span>
+
+
+                    <?php
+
+                    echo htmlspecialchars(
+                        $appointment['status']
+                    );
+
+                    ?>
+
+                </span>
+
+
+            </div>
+
+
+
+            <!-- APPOINTMENT DETAILS -->
+
+
+            <div class="appointment-details">
+
+
+                <div class="detail-item">
+
+
+                    <div class="detail-icon">
+
+                        <i class='bx bx-calendar'></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Appointment Date
+                        </span>
+
+
+                        <strong>
+
+                            <?php
+
+                            echo date(
+                                "F d, Y",
+                                strtotime(
+                                    $appointment[
+                                        'appointment_date'
+                                    ]
+                                )
+                            );
+
+                            ?>
+
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="detail-item">
+
+
+                    <div class="detail-icon">
+
+                        <i class='bx bx-time-five'></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Appointment Time
+                        </span>
+
+
+                        <strong>
+
+                            <?php
+
+                            echo date(
+                                "h:i A",
+                                strtotime(
+                                    $appointment[
+                                        'appointment_time'
+                                    ]
+                                )
+                            );
+
+                            ?>
+
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- MESSAGE -->
+
+
+            <div class="appointment-message">
+
+
+                <div class="message-heading">
+
+                    <i class='bx bx-message-square-detail'></i>
+
+                    <span>
+
+                        Reason for Appointment
+
+                    </span>
+
+                </div>
+
+
+                <p>
+
+                    <?php
+
+                    if (
+                        !empty(
+                            $appointment['message']
+                        )
+                    ) {
+
+                        echo nl2br(
+                            htmlspecialchars(
+                                $appointment['message']
+                            )
+                        );
+
+                    } else {
+
+                        echo
+                        "No appointment reason was provided.";
+
+                    }
+
+                    ?>
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- ACTIONS -->
+
+
+            <div class="appointment-actions">
+
+
+                <form
+                    action="update_appointment.php"
+                    method="POST"
+                    class="action-form"
+                >
+
+
+                    <input
+                        type="hidden"
+                        name="appointment_id"
+                        value="<?php
+                        echo (int)$appointment['id'];
+                        ?>"
+                    >
+
+
+
+                    <button
+                        type="submit"
+                        name="status"
+                        value="Approved"
+                        class="approve-btn"
+                    >
+
+                        <i class='bx bx-check'></i>
+
+                        Approve
+
+                    </button>
+
+
+
+                    <button
+                        type="submit"
+                        name="status"
+                        value="Rejected"
+                        class="reject-btn"
+                    >
+
+                        <i class='bx bx-x'></i>
+
+                        Reject
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+        </article>
+
+
+        <?php } ?>
+
+
+        </div>
+
+
+    <?php } else { ?>
+
+
+        <!-- EMPTY STATE -->
+
+
+        <div class="appointment-empty-state">
+
+
+            <div class="empty-icon">
+
+                <i class='bx bx-calendar-x'></i>
+
+            </div>
+
+
+            <h3>
+
+                No Appointment Requests Yet
+
+            </h3>
+
+
+            <p>
+
+                Student appointment requests will
+                appear here when a mentoring session
+                is booked.
+
+            </p>
+
+
+        </div>
+
+
+    <?php } ?>
+
+
+</section>
+
+
+</main>
+
+
+
 <?php include "Includes/footer.php"; ?>
 
-<script>
 
-document.querySelectorAll(".appointment-card")
-.forEach(card => {
 
-    card.addEventListener("mouseenter", () => {
+<!-- Bootstrap JavaScript -->
 
-        card.style.transform =
-        "translateY(-5px)";
 
-    });
-
-    card.addEventListener("mouseleave", () => {
-
-        card.style.transform =
-        "translateY(0px)";
-
-    });
-
-});
-
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
 </script>
-</body>
-</html>
 
+
+</body>
+
+</html>

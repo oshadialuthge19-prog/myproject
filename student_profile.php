@@ -44,14 +44,16 @@ ORDER BY usersName ASC
 
 if(isset($_POST['save_profile'])){
 
-    $full_name      = trim($_POST['full_name']);
-    $email          = trim($_POST['email']);
-    $degree         = $_POST['degree'];
-    $semester       = $_POST['semester'];
-    $academic_year  = trim($_POST['academic_year']);
-    $contact_no     = trim($_POST['contact_no']);
-    $address        = trim($_POST['address']);
-    $bio            = trim($_POST['bio']);
+    $full_name      = trim($_POST['full_name'] ?? '');
+$email          = trim($_POST['email'] ?? '');
+$degree         = $_POST['degree'] ?? '';
+$semester       = $_POST['semester'] ?? '';
+$academic_year  = trim($_POST['academic_year'] ?? '');
+$contact_no     = trim($_POST['contact_no'] ?? '');
+$address        = trim($_POST['address'] ?? '');
+$bio            = trim($_POST['bio'] ?? '');
+
+$mentor_id      = (int)($_POST['mentor_id'] ?? 0);
 
     // Keep current image by default
     $profile_picture = $data['profile_picture'] ?? "";
@@ -174,6 +176,77 @@ if(isset($_POST['save_profile'])){
         $insert->execute();
 
     }
+
+
+    /* ============================
+       SAVE MENTOR ASSIGNMENT
+    ============================ */
+
+    if($mentor_id > 0){
+
+        $checkAssignment = $conn->prepare("
+            SELECT id
+            FROM mentor_assignments
+            WHERE student_id = ?
+        ");
+
+        $checkAssignment->bind_param(
+            "i",
+            $student_id
+        );
+
+        $checkAssignment->execute();
+
+        $assignmentResult =
+            $checkAssignment->get_result();
+
+
+        /* Student already has a mentor */
+
+        if($assignmentResult->num_rows > 0){
+
+            $updateAssignment = $conn->prepare("
+                UPDATE mentor_assignments
+                SET mentor_id = ?
+                WHERE student_id = ?
+            ");
+
+            $updateAssignment->bind_param(
+                "ii",
+                $mentor_id,
+                $student_id
+            );
+
+            $updateAssignment->execute();
+
+        }
+
+
+        /* Student does not have a mentor */
+
+        else{
+
+            $insertAssignment = $conn->prepare("
+                INSERT INTO mentor_assignments
+                (
+                    student_id,
+                    mentor_id
+                )
+                VALUES (?, ?)
+            ");
+
+            $insertAssignment->bind_param(
+                "ii",
+                $student_id,
+                $mentor_id
+            );
+
+            $insertAssignment->execute();
+
+        }
+
+    }
+
 
     header("Location: student_profile.php?success=1");
     exit();

@@ -295,7 +295,7 @@ $notifications->num_rows;
 
 
                     <a
-                        href="#"
+                        href="mentor_messages.php"
                         class="sub-menu-link"
                     >
 
