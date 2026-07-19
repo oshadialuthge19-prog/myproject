@@ -116,6 +116,52 @@
     color: #0D0B61;
 }
 
+/* ===============================
+   NOTIFICATION ICON
+================================ */
+
+.notification-menu{
+    position:relative;
+    display:flex;
+    align-items:center;
+}
+
+.notification-icon{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    color:#fff;
+    transition:.3s;
+}
+
+.notification-icon i{
+    font-size:26px;
+}
+
+.notification-icon:hover{
+    background:rgba(255,255,255,.15);
+}
+
+.notification-count{
+    position:absolute;
+    top:-4px;
+    right:-4px;
+    min-width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#ff3b3b;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:11px;
+    font-weight:600;
+}
+
 
 /* ===============================
    PROFILE DROPDOWN
@@ -194,138 +240,79 @@
    NOTIFICATION
 ================================ */
 
-.notification-menu {
-    position: relative;
-
-    display: flex;
-    align-items: center;
+.notification-dropdown{
+    position:absolute;
+    top:58px;
+    right:0;
+    width:320px;
+    max-height:380px;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,.12);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(10px);
+    transition:.25s;
+    z-index:10000;
 }
 
-.notification-icon {
-    width: 44px;
-    height: 44px;
-
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: white;
-
-    cursor: pointer;
-
-    transition: 0.3s;
+.notification-dropdown.open-notifications{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
 }
 
-.notification-icon i {
-    font-size: 25px;
+.notification-dropdown h3{
+    font-size:22px;
+    margin-bottom:15px;
+    color:#0D0B61;
 }
 
-.notification-icon:hover {
-    background: rgba(255, 255, 255, 0.15);
+.notification-item{
+    display:block;
+    text-decoration:none;
+    color:#333;
+    padding:12px;
+    border:1px solid #ececec;
+    border-radius:10px;
+    margin-bottom:10px;
+    transition:.3s;
 }
 
-.notification-count {
-    position: absolute;
-
-    top: -4px;
-    right: -4px;
-
-    min-width: 20px;
-    height: 20px;
-
-    padding: 0 5px;
-
-    border-radius: 50%;
-
-    background: #ff3b3b;
-    color: white;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 11px;
-    font-weight: 600;
+.notification-item:hover{
+    background:#f5f7ff;
+    border-color:#0D0B61;
 }
 
-
-/* ===============================
-   NOTIFICATION DROPDOWN
-================================ */
-
-.notification-dropdown {
-    position: absolute;
-
-    top: 58px;
-    right: 0;
-
-    width: 340px;
-
-    background: white;
-
-    padding: 20px;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.18);
-
-    opacity: 0;
-    visibility: hidden;
-
-    transform: translateY(10px);
-
-    transition: 0.3s ease;
-
-    z-index: 10000;
+.notification-item p{
+    margin:0;
+    font-size:14px;
+    font-weight:500;
 }
 
-.notification-dropdown.open-notifications {
-    opacity: 1;
-    visibility: visible;
-
-    transform: translateY(0);
+.notification-item small{
+    display:block;
+    margin-top:5px;
+    font-size:12px;
+    color:#777;
 }
 
-.notification-dropdown h3 {
-    color: #0D0B61;
-    font-size: 20px;
-    font-weight: 700;
-
-    margin-bottom: 15px;
+.mark-read-btn{
+    display:block;
+    text-align:center;
+    margin-top:12px;
+    padding:10px;
+    background:#0D0B61;
+    color:#fff;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
 }
 
-.notification-item {
-    padding: 12px 0;
-
-    border-bottom: 1px solid #eee;
-}
-
-.notification-item p {
-    margin: 0 0 5px;
-
-    color: #333;
-
-    font-size: 14px;
-}
-
-.notification-item small {
-    color: #888;
-    font-size: 12px;
-}
-
-.mark-read-btn {
-    display: inline-block;
-
-    margin-top: 15px;
-
-    color: #0D0B61;
-
-    font-weight: 600;
-
-    text-decoration: none;
+.mark-read-btn:hover{
+    background:#201c8d;
 }
 
 
@@ -408,3 +395,4 @@
     }
 
 }
+

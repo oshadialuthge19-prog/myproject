@@ -11,10 +11,11 @@ $mentor_id = $_SESSION['user_id'];
    FETCH MENTOR PROFILE IMAGE
 ================================ */
 
+
 $profileQuery = $conn->prepare(
     "SELECT profile_picture
      FROM mentor_profiles
-     WHERE mentor_id = ?"
+     WHERE mentor_id=?"
 );
 
 $profileQuery->bind_param(
@@ -35,10 +36,10 @@ $mentorProfile = $profileResult->fetch_assoc();
 
 $notificationQuery = $conn->prepare(
     "SELECT *
-     FROM mentor_notifications
-     WHERE mentor_id = ?
-     AND is_read = 0
-     ORDER BY created_at DESC"
+FROM system_notifications
+WHERE user_id = ?
+AND is_read = 0
+ORDER BY created_at DESC"
 );
 
 $notificationQuery->bind_param(
@@ -118,6 +119,13 @@ $notifications->num_rows;
 
             </li>
 
+            <li class="navbar_item">
+    <a href="chat.php" class="navbar_links">
+        <i class='bx bx-message-rounded-dots'></i>
+        Chat
+    </a>
+</li>
+
         </ul>
 
 
@@ -178,29 +186,17 @@ $notifications->num_rows;
 
                     ?>
 
-                            <div class="notification-item">
+                <a href="<?php echo htmlspecialchars($note['notification_link']); ?>" class="notification-item">
 
-                                <p>
+    <p>
+        <?php echo htmlspecialchars($note['message']); ?>
+    </p>
 
-                                    <?php
-                                    echo htmlspecialchars(
-                                        $note['message']
-                                    );
-                                    ?>
+    <small>
+        <?php echo htmlspecialchars($note['created_at']); ?>
+    </small>
 
-                                </p>
-
-                                <small>
-
-                                    <?php
-                                    echo htmlspecialchars(
-                                        $note['created_at']
-                                    );
-                                    ?>
-
-                                </small>
-
-                            </div>
+</a>
 
                     <?php
 
@@ -215,7 +211,7 @@ $notifications->num_rows;
 
 
                     <a
-                        href="mark_mentor_notifications.php"
+                        href="mark_notifications.php"
                         class="mark-read-btn"
                     >
 

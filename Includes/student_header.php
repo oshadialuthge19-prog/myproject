@@ -66,6 +66,13 @@ $navResult->fetch_assoc();
                 <a href="login.php" class="button">Login</a>
             </li> -->
 
+            <li class="navbar_item">
+    <a href="chat.php" class="navbar_links">
+        <i class='bx bx-message-rounded-dots'></i>
+        Chat
+    </a>
+</li>
+
         </ul>
         </div>
 
@@ -75,12 +82,12 @@ $navResult->fetch_assoc();
         <?php
 
              $notificationQuery = $conn->prepare(
-                 "SELECT * FROM notifications
-                 WHERE student_id=?
-                 AND is_read=0
-                 ORDER BY created_at DESC"
+              "SELECT *
+               FROM system_notifications
+            WHERE user_id=?
+            AND is_read=0
+            ORDER BY created_at DESC"
             );
-
                  $notificationQuery->bind_param(
                  "i",
                 $_SESSION['user_id']
@@ -119,21 +126,20 @@ $navResult->fetch_assoc();
             $notifications->fetch_assoc()){
         ?>
 
-        <div class="notification-item">
+          <a
+            href="<?php echo htmlspecialchars($note['notification_link']); ?>"
+             class="notification-item"
+              >
 
-            <p>
-            <?php
-            echo $note['message'];
-            ?>
-            </p>
+    <p>
+        <?php echo htmlspecialchars($note['message']); ?>
+    </p>
 
-            <small>
-            <?php
-            echo $note['created_at'];
-            ?>
-            </small>
+    <small>
+        <?php echo htmlspecialchars($note['created_at']); ?>
+    </small>
 
-        </div>
+</a>
 
         <?php
 

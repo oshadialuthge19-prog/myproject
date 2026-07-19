@@ -493,3 +493,17 @@ body{
     }
 
 }
+
+.notification-item{
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    transition: .3s;
+}
+
+.notification-item:hover{
+    background: #f5f7ff;
+    border-radius: 8px;
+}

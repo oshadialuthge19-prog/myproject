@@ -4,110 +4,115 @@ session_start();
 
 include "Includes/db.php";
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $appointment_id =
-    $_POST['appointment_id'];
+    $appointment_id = $_POST['appointment_id'];
+    $status = $_POST['status'];
 
-    $status =
-    $_POST['status'];
-
-    // UPDATE APPOINTMENT STATUS
+    /* ============================
+       UPDATE APPOINTMENT STATUS
+    ============================ */
 
     $stmt = $conn->prepare(
 
-    "UPDATE appointments
-
-    SET status=?
-
-    WHERE id=?"
+        "UPDATE appointments
+        SET status = ?
+        WHERE id = ?"
 
     );
 
     $stmt->bind_param(
-
-    "si",
-
-    $status,
-    $appointment_id
-
+        "si",
+        $status,
+        $appointment_id
     );
 
-    if($stmt->execute()){
+    if ($stmt->execute()) {
 
-        // GET STUDENT ID
+        /* ============================
+           GET STUDENT ID
+        ============================ */
 
         $studentQuery = $conn->prepare(
 
-        "SELECT student_id
-        FROM appointments
-        WHERE id=?"
+            "SELECT student_id
+             FROM appointments
+             WHERE id = ?"
 
         );
 
         $studentQuery->bind_param(
-        "i",
-        $appointment_id
+            "i",
+            $appointment_id
         );
 
         $studentQuery->execute();
 
-        $studentResult =
-        $studentQuery->get_result();
+        $student = $studentQuery->get_result()->fetch_assoc();
 
-        $student =
-        $studentResult->fetch_assoc();
+        $student_id = $student['student_id'];
 
-        $student_id =
-        $student['student_id'];
+        /* ============================
+           CREATE NOTIFICATION MESSAGE
+        ============================ */
 
-        // NOTIFICATION MESSAGE
+        if ($status == "Approved") {
 
-        if($status == "Approved"){
+            $message = "Your appointment request has been approved.";
 
-            $message =
-            "Your appointment has been APPROVED.";
+        } else {
 
-        }else{
+            $message = "Your appointment request has been rejected.";
 
-            $message =
-            "Your appointment has been REJECTED.";
         }
 
-        // INSERT NOTIFICATION
+        /* ============================
+           SAVE NOTIFICATION
+        ============================ */
+
+        $type = "appointment";
+        $link = "book_appointment.php";
 
         $notify = $conn->prepare(
 
-        "INSERT INTO notifications
+            "INSERT INTO system_notifications
+            (
+                user_id,
+                type,
+                message,
+                related_id,
+                notification_link,
+                is_read,
+                created_at
+            )
 
-        (student_id, message)
-
-        VALUES (?, ?)"
+            VALUES (?, ?, ?, ?, ?, 0, NOW())"
 
         );
 
         $notify->bind_param(
 
-        "is",
+            "issis",
 
-        $student_id,
-        $message
+            $student_id,
+            $type,
+            $message,
+            $appointment_id,
+            $link
 
         );
 
         $notify->execute();
 
-        // REDIRECT
-
-        header(
-        "Location: mentor_appointment.php"
-        );
-
+        header("Location: mentor_appointment.php");
         exit();
 
-    }else{
+    } else {
 
         echo "Failed to update.";
+
     }
+
 }
+
 ?>

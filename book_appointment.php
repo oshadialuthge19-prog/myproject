@@ -142,18 +142,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $notify = $conn->prepare("
 
-                INSERT INTO system_notifications
-                (
-                    user_id,
-                    type,
-                    message,
-                    related_id,
-                    notification_link
-                )
+    INSERT INTO system_notifications
+    (
+        user_id,
+        type,
+        message,
+        related_id,
+        notification_link,
+        is_read,
+        created_at
+    )
 
-                VALUES (?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, 0, NOW())
 
-            ");
+");
 
 
             $notify->bind_param(
