@@ -117,17 +117,19 @@ if ($role == "student") {
 
 <?php while($user = $users->fetch_assoc()) { ?>
 
-<div class="conversation-card">
+<div class="conversation-card"
+     onclick="openChat(
+        <?= $user['usersId']; ?>,
+        '<?= htmlspecialchars($user['usersName'], ENT_QUOTES); ?>'
+     )">
 
     <div class="conversation-avatar">
-
         <i class='bx bx-user'></i>
-
     </div>
 
     <div class="conversation-info">
 
-        <h4><?php echo htmlspecialchars($user['usersName']); ?></h4>
+        <h4><?= htmlspecialchars($user['usersName']); ?></h4>
 
         <small>Click to chat</small>
 
@@ -186,6 +188,55 @@ if ($role == "student") {
 </div>
 
 <?php include "Includes/footer.php"; ?>
+
+<script>
+
+const socket = new WebSocket("ws://localhost:8080");
+
+socket.onopen = function(){
+
+    console.log("✅ Connected");
+
+    socket.send(JSON.stringify({
+
+        type:"register",
+
+        user_id: <?= $_SESSION['user_id']; ?>
+
+    }));
+
+};
+
+socket.onmessage = function(event){
+
+    console.log("Received:", event.data);
+
+};
+
+socket.onclose = function(){
+
+    console.log("Disconnected");
+
+};
+
+let currentReceiver = null;
+
+function openChat(userId,userName){
+    alert("Clicked: " + userName);
+
+    currentReceiver = userId;
+
+    document.querySelector(".chat-header h2").innerText = userName;
+
+    document.querySelector(".chat-input input").disabled = false;
+
+    document.querySelector(".chat-input button").disabled = false;
+
+    document.getElementById("chat-messages").innerHTML = "";
+
+}
+
+</script>
 
 </body>
 </html>
