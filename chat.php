@@ -175,7 +175,7 @@ if ($role == "student") {
                 disabled
             >
 
-            <button disabled>
+            <button onclick="sendMessage()" disabled>
 
                 <i class='bx bx-send'></i>
 
@@ -209,7 +209,15 @@ socket.onopen = function(){
 
 socket.onmessage = function(event){
 
-    console.log("Received:", event.data);
+    const data = JSON.parse(event.data);
+
+    console.log("Received:", data);
+
+    if(data.type === "message"){
+
+        loadMessages();
+
+    }
 
 };
 
@@ -221,20 +229,98 @@ socket.onclose = function(){
 
 let currentReceiver = null;
 
-function openChat(userId,userName){
-    alert("Clicked: " + userName);
+function openChat(userId, userName) {
 
     currentReceiver = userId;
 
     document.querySelector(".chat-header h2").innerText = userName;
 
     document.querySelector(".chat-input input").disabled = false;
-
     document.querySelector(".chat-input button").disabled = false;
 
-    document.getElementById("chat-messages").innerHTML = "";
+    loadMessages();
+}
+
+function loadMessages() {
+
+    if (!currentReceiver) return;
+
+    fetch("fetch_msg.php?user_id=" + currentReceiver)
+        .then(response => response.text())
+        .then(data => {
+
+            document.getElementById("chat-messages").innerHTML = data;
+
+            document.getElementById("chat-messages").scrollTop =
+                document.getElementById("chat-messages").scrollHeight;
+
+        });
 
 }
+
+function sendMessage(){
+
+    if(!currentReceiver) return;
+
+    const input = document.querySelector(".chat-input input");
+
+    const message = input.value.trim();
+
+    if(message === "") return;
+
+    fetch("send_msg.php",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/x-www-form-urlencoded"
+        },
+
+        body:
+            "receiver_id="+encodeURIComponent(currentReceiver)+
+            "&message="+encodeURIComponent(message)
+
+    })
+    .then(res=>res.json())
+    .then(response=>{
+
+        if(response.success){
+
+            socket.send(JSON.stringify({
+
+                type:"message",
+
+                sender_id: <?= $_SESSION['user_id']; ?>,
+
+                receiver_id: currentReceiver,
+
+                message: message
+
+            }));
+
+            input.value="";
+
+            loadMessages();
+
+        }else{
+
+            alert(response.message);
+
+        }
+
+    });
+
+}
+
+document.querySelector(".chat-input input").addEventListener("keypress",function(e){
+
+    if(e.key==="Enter"){
+
+        sendMessage();
+
+    }
+
+});
 
 </script>
 

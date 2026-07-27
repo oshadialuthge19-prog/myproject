@@ -37,7 +37,8 @@
        <!-- login -->
         <div class="form">
         <div class="box-login">
-          <form action="login_process.php" method="POST">
+          <!-- <form action="login_process.php" method="POST"> -->
+            <form action="login_process.php" method="POST" onsubmit="alert('Submitting');">
             <h2>Login</h2>
 
             <div class="input-box">

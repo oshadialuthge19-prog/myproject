@@ -1,15 +1,17 @@
-
 const logregBox = document.querySelector('.login-reg-box');
 const loginLink = document.querySelector('.login-link');
 const registerLink = document.querySelector('.register-link');
 
-registerLink.onclick = (e) => {
-    e.preventDefault(); // Prevents page jump
-    logregBox.classList.add('active');
-};
+if (registerLink) {
+    registerLink.onclick = (e) => {
+        e.preventDefault();
+        logregBox.classList.add('active');
+    };
+}
 
-loginLink.onclick = (e) => {
-    e.preventDefault(); // Prevents page jump
-    logregBox.classList.remove('active');
-};
-// console.log(registerLink);
+if (loginLink) {
+    loginLink.onclick = (e) => {
+        e.preventDefault();
+        logregBox.classList.remove('active');
+    };
+}
