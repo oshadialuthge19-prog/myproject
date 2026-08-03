@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
      rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
     rel='stylesheet'>
     <title>Login</title>
@@ -38,19 +43,32 @@
         <div class="form">
         <div class="box-login">
           <!-- <form action="login_process.php" method="POST"> -->
-            <form action="login_process.php" method="POST" onsubmit="alert('Submitting');">
+            <form action="login_process.php" method="POST">
             <h2>Login</h2>
+            <?php if(isset($_SESSION['error'])): ?>
+
+<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    <i class='bx bx-error-circle me-2'></i>
+    <?= $_SESSION['error']; ?>
+
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close">
+    </button>
+</div>
+
+<?php unset($_SESSION['error']); ?>
+<?php endif; ?>
 
             <div class="input-box">
               <span class="icon"><i class="bx bx-envelope"></i></span>
-             <input type="email"
-name="email"
-value="<?php 
-if(isset($_COOKIE['email'])){
-    echo $_COOKIE['email'];
-}
-?>"
-required>
+             <input
+    type="email"
+    name="email"
+    value="<?= isset($_COOKIE['email']) ? htmlspecialchars($_COOKIE['email']) : '' ?>"
+    required
+>
 
               <label>Email</label>
             </div>
@@ -157,7 +175,17 @@ required>
 
       </div> -->
     </div>
-
+     <script>
+           setTimeout(function () {
+                  let alert = document.querySelector('.alert');
+                    if (alert) {
+                  let bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+               bsAlert.close();
+                    }
+                  }, 4000);
+                </script>
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

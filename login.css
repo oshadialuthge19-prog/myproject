@@ -190,21 +190,6 @@ body{
 }
 
 
-.error {
-    background: #ffdddd;
-    color: red;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-
-.success {
-    background: #ddffdd;
-    color: green;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
 
 /* student dashbord
 body.dashboard-page {
@@ -802,4 +787,11 @@ footer {
         width: 100%;
         padding: 20px;
     }
+}
+
+
+.box-login .alert{
+    margin-bottom:25px;
+    border-radius:10px;
+    font-size:15px;
 }

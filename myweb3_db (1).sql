@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2026 at 05:48 PM
+-- Generation Time: Aug 03, 2026 at 04:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -167,6 +167,38 @@ CREATE TABLE `mentor_profiles` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `mentor_settings`
+--
+
+CREATE TABLE `mentor_settings` (
+  `mentor_id` int(11) NOT NULL,
+  `notify_appointments` tinyint(1) NOT NULL DEFAULT 1,
+  `notify_chat` tinyint(1) NOT NULL DEFAULT 1,
+  `notify_gpa` tinyint(1) NOT NULL DEFAULT 1,
+  `notify_system` tinyint(1) NOT NULL DEFAULT 1,
+  `show_online_status` tinyint(1) NOT NULL DEFAULT 1,
+  `show_last_seen` tinyint(1) NOT NULL DEFAULT 1,
+  `email_appointments` tinyint(1) NOT NULL DEFAULT 1,
+  `email_chat` tinyint(1) NOT NULL DEFAULT 1,
+  `email_gpa` tinyint(1) NOT NULL DEFAULT 1,
+  `email_system` tinyint(1) NOT NULL DEFAULT 1,
+  `session_duration` int(11) NOT NULL DEFAULT 60,
+  `break_time` int(11) NOT NULL DEFAULT 15,
+  `max_daily_sessions` int(11) NOT NULL DEFAULT 5,
+  `theme` enum('light','dark','system') DEFAULT 'light',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mentor_settings`
+--
+
+INSERT INTO `mentor_settings` (`mentor_id`, `notify_appointments`, `notify_chat`, `notify_gpa`, `notify_system`, `show_online_status`, `show_last_seen`, `email_appointments`, `email_chat`, `email_gpa`, `email_system`, `session_duration`, `break_time`, `max_daily_sessions`, `theme`, `created_at`) VALUES
+(28, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 60, 15, 5, 'dark', '2026-08-03 12:35:51');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `messages`
 --
 
@@ -178,6 +210,20 @@ CREATE TABLE `messages` (
   `is_read` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `message`, `is_read`, `created_at`) VALUES
+(1, 28, 27, 'ji', 1, '2026-07-25 01:42:17'),
+(2, 28, 27, 'joo', 1, '2026-07-25 01:42:31'),
+(3, 28, 27, 'hiiiiii koo', 1, '2026-07-26 09:23:45'),
+(4, 28, 27, 'jiiii', 1, '2026-07-26 09:43:20'),
+(5, 28, 27, 'please tell me the time', 1, '2026-07-27 10:56:42'),
+(6, 28, 27, 'hello', 0, '2026-07-28 09:13:53'),
+(7, 28, 27, 'hi', 0, '2026-08-03 10:24:47'),
+(8, 28, 27, 'ddd', 0, '2026-08-03 10:24:56');
 
 -- --------------------------------------------------------
 
@@ -262,7 +308,7 @@ CREATE TABLE `system_notifications` (
 --
 
 INSERT INTO `system_notifications` (`id`, `user_id`, `type`, `message`, `related_id`, `notification_link`, `is_read`, `created_at`) VALUES
-(1, 28, 'appointment', 'A student has booked a new appointment.', 7, 'mentor_appointment.php', 0, '2026-07-16 17:00:24'),
+(1, 28, 'appointment', 'A student has booked a new appointment.', 7, 'mentor_appointment.php', 1, '2026-07-16 17:00:24'),
 (2, 27, 'appointment', 'Your appointment request has been approved.', 7, 'book_appointment.php', 0, '2026-07-16 17:01:53');
 
 -- --------------------------------------------------------
@@ -280,40 +326,43 @@ CREATE TABLE `users` (
   `student_id` varchar(50) NOT NULL,
   `mentor_id` varchar(50) NOT NULL,
   `course` varchar(100) NOT NULL,
-  `department` varchar(100) NOT NULL
+  `department` varchar(100) NOT NULL,
+  `otp` varchar(6) DEFAULT NULL,
+  `otp_expiry` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`usersId`, `usersName`, `usersEmail`, `usersPwd`, `role`, `student_id`, `mentor_id`, `course`, `department`) VALUES
-(3, 'Admin User', 'admin@gmail.com', '123456', 'mentor', '', '', '', ''),
-(4, 'nethmi', 'nethmi@gmail.com', '2468', 'student', '', '', '', ''),
-(5, 'ui', 'ui@gmail.com', '0987', 'student', '', '', '', ''),
-(6, 'hansi', 'hansi@gmail.com', 'asdf', 'student', '', '', '', ''),
-(7, 'osi', 'osi@gmail.com', 'iiii', 'student', '', '', '', ''),
-(8, 'Hansamali', 'isurikahansi@gmail.com', 'Legend#1999', 'student', '', '', '', ''),
-(9, 'lochimentor', 'lochimentor@gmail.com', '1234', 'student', '', '', '', ''),
-(10, 'admin lochi', 'admin@lochi.com', 'uio', 'student', '', '', '', ''),
-(11, 'kasun jayawardhana', 'kasun@gmail.com', '123456', 'student', '', '', '', ''),
-(12, 'malisha', 'malisha@gmail', '12345', 'student', '', '', '', ''),
-(13, 'Oshadi Aluthge', 'oshadi@gmail.com', '$2y$10$n7ddeBU3Twq3XkLhDod1ieanDOoGUT.SwvMNO6ietP0mFi0kxeFEG', 'student', 'st001', '', 'software engineering', ''),
-(14, 'hansi', 'hansamali@gmail.com', '$2y$10$y/I7HJz7aYVA5HdF/aAuCeCe6kpybvD4NDo9nZUmu3IR9mp6EPZky', 'mentor', '', 'mt001', '', 'computing'),
-(15, 'hansi', 'hansi4@gmail.com', '$2y$10$cggsm5/yUi6Xv4E/HtBcF.JvnwCcClN91sOIZp3NqnbYjMbN2YzNu', 'student', 'st002', '', 'bit', ''),
-(16, 'admin', 'admin1@gmail.com', '$2y$10$S0kdQMkf8OzTv8GTej.WHOth9yUxy/rttfBj5gNxwTUs98QGgDoLW', 'student', 'st003', '', 'bit', ''),
-(17, 'Hansamali Isurika', 'Hansamali.Chandrasekara@intrepid', '$2y$10$inGkh3lmKf2uwFETCxhnBul9XJsXpxoc6KBpt6RRUAx5oJeRmvkX.', 'student', 'st003', '', 'Business Analysis', ''),
-(18, 'Hansamali Isurika', 'Hansamali.Chandrasekara@intrepid', '$2y$10$A99ynzosSN61Bq3CIMigcO6iV6ea1LHLXjvdf8BEpMrbdxCIT5ga2', 'student', 'st005', '', 'Business Analysis', ''),
-(19, 'Isurika hansi', 'isurika2@gmail.com', '$2y$10$wnkyvKL9uV045kk4F17Zpu8WY4YjIGfu.ZqUyd/jTEHq1tJdTXH3G', 'student', 'st006', '', 'Accounting', ''),
-(20, 'Nisal Aluthge', 'nisaldaluthge@gmail.com', '$2y$10$1qsxjSHcNRUx/QfFGofoS.HNVNu8D8cC0cQMjY4GeZeBykoz3TMGe', 'student', 'st007', '', 'Finance', ''),
-(21, 'Pathima Sriyani', 'pathima@gmail.com', '$2y$10$DslR49LXvB8mjmMUYjXX.egCbEdPT9XrA9D.N4mGR4RPO0BfUC1bi', 'mentor', '', 'mt001', '', 'bit'),
-(22, 'Nisal devinda', 'nisal6@gmail.com', '$2y$10$97I6E2siw65RnvG6o5Vpr.L0tdN4SmihpGZn7zcHiqkTlcYKSp1Ya', 'student', 'st008', '', 'Cyber Security', ''),
-(23, 'Park Jimin', 'jimin1013@gmail.com', '$2y$10$12dzKckBsGxo5EAxjyNeoutaPrqHFJGRbsyWXJocUtwolrbNpZPe2', 'mentor', '', 'mt001', '', 'bit'),
-(24, 'sanduni', 'sanduni@gmail.com', '$2y$10$etmXY3Vqq9ElUk0/EnPAIe2PsFv9JqlpaVriS1fVr4lg3SPd007T2', 'student', 'st009', '', 'Graphic Design', ''),
-(25, 'maduri', 'maduri@gmail.com', '$2y$10$xhUI3wuEQx23NKNST3GyD.MA9XNUOwWOtHfJFxhxLrL3czV6lbaoy', 'student', 'st009', '', 'Cyber Security', ''),
-(26, 'rangani atapattu', 'rangani@gmail.com', '$2y$10$Rz57eu9jK5diNiuTei67p.r2L2cwTzUt3x18J65FwCDGrPq/QO8Tu', 'mentor', '', 'mt0011', '', 'bit'),
-(27, 'abs', 'abs@gmail.com', '$2y$10$Psf4klsdczo85rk3BtKWnexDgiknSuBAVOsYzvdJPm6gNZfScg6Rq', 'student', 'st0021', '', 'Graphic Design', ''),
-(28, 'test1', 'test@gmail.com', '$2y$10$RmQCI9dru4GgZqY5lCeTReGt5.IZE7Jn6zIZfWacQGvPqla4tiuIe', 'mentor', '', 'mt001', '', 'computing');
+INSERT INTO `users` (`usersId`, `usersName`, `usersEmail`, `usersPwd`, `role`, `student_id`, `mentor_id`, `course`, `department`, `otp`, `otp_expiry`) VALUES
+(3, 'Admin User', 'admin@gmail.com', '123456', 'mentor', '', '', '', '', NULL, NULL),
+(4, 'nethmi', 'nethmi@gmail.com', '2468', 'student', '', '', '', '', NULL, NULL),
+(5, 'ui', 'ui@gmail.com', '0987', 'student', '', '', '', '', NULL, NULL),
+(6, 'hansi', 'hansi@gmail.com', 'asdf', 'student', '', '', '', '', NULL, NULL),
+(7, 'osi', 'osi@gmail.com', 'iiii', 'student', '', '', '', '', NULL, NULL),
+(8, 'Hansamali', 'isurikahansi@gmail.com', 'Legend#1999', 'student', '', '', '', '', NULL, NULL),
+(9, 'lochimentor', 'lochimentor@gmail.com', '1234', 'student', '', '', '', '', NULL, NULL),
+(10, 'admin lochi', 'admin@lochi.com', 'uio', 'student', '', '', '', '', NULL, NULL),
+(11, 'kasun jayawardhana', 'kasun@gmail.com', '123456', 'student', '', '', '', '', NULL, NULL),
+(12, 'malisha', 'malisha@gmail', '12345', 'student', '', '', '', '', NULL, NULL),
+(13, 'Oshadi Aluthge', 'oshadi@gmail.com', '$2y$10$n7ddeBU3Twq3XkLhDod1ieanDOoGUT.SwvMNO6ietP0mFi0kxeFEG', 'student', 'st001', '', 'software engineering', '', NULL, NULL),
+(14, 'hansi', 'hansamali@gmail.com', '$2y$10$y/I7HJz7aYVA5HdF/aAuCeCe6kpybvD4NDo9nZUmu3IR9mp6EPZky', 'mentor', '', 'mt001', '', 'computing', NULL, NULL),
+(15, 'hansi', 'hansi4@gmail.com', '$2y$10$cggsm5/yUi6Xv4E/HtBcF.JvnwCcClN91sOIZp3NqnbYjMbN2YzNu', 'student', 'st002', '', 'bit', '', NULL, NULL),
+(16, 'admin', 'admin1@gmail.com', '$2y$10$S0kdQMkf8OzTv8GTej.WHOth9yUxy/rttfBj5gNxwTUs98QGgDoLW', 'student', 'st003', '', 'bit', '', NULL, NULL),
+(17, 'Hansamali Isurika', 'Hansamali.Chandrasekara@intrepid', '$2y$10$inGkh3lmKf2uwFETCxhnBul9XJsXpxoc6KBpt6RRUAx5oJeRmvkX.', 'student', 'st003', '', 'Business Analysis', '', NULL, NULL),
+(18, 'Hansamali Isurika', 'Hansamali.Chandrasekara@intrepid', '$2y$10$A99ynzosSN61Bq3CIMigcO6iV6ea1LHLXjvdf8BEpMrbdxCIT5ga2', 'student', 'st005', '', 'Business Analysis', '', NULL, NULL),
+(19, 'Isurika hansi', 'isurika2@gmail.com', '$2y$10$wnkyvKL9uV045kk4F17Zpu8WY4YjIGfu.ZqUyd/jTEHq1tJdTXH3G', 'student', 'st006', '', 'Accounting', '', NULL, NULL),
+(20, 'Nisal Aluthge', 'nisaldaluthge@gmail.com', '$2y$10$1qsxjSHcNRUx/QfFGofoS.HNVNu8D8cC0cQMjY4GeZeBykoz3TMGe', 'student', 'st007', '', 'Finance', '', NULL, NULL),
+(21, 'Pathima Sriyani', 'pathima@gmail.com', '$2y$10$DslR49LXvB8mjmMUYjXX.egCbEdPT9XrA9D.N4mGR4RPO0BfUC1bi', 'mentor', '', 'mt001', '', 'bit', NULL, NULL),
+(22, 'Nisal devinda', 'nisal6@gmail.com', '$2y$10$97I6E2siw65RnvG6o5Vpr.L0tdN4SmihpGZn7zcHiqkTlcYKSp1Ya', 'student', 'st008', '', 'Cyber Security', '', NULL, NULL),
+(23, 'Park Jimin', 'jimin1013@gmail.com', '$2y$10$12dzKckBsGxo5EAxjyNeoutaPrqHFJGRbsyWXJocUtwolrbNpZPe2', 'mentor', '', 'mt001', '', 'bit', NULL, NULL),
+(24, 'sanduni', 'sanduni@gmail.com', '$2y$10$etmXY3Vqq9ElUk0/EnPAIe2PsFv9JqlpaVriS1fVr4lg3SPd007T2', 'student', 'st009', '', 'Graphic Design', '', NULL, NULL),
+(25, 'maduri', 'maduri@gmail.com', '$2y$10$xhUI3wuEQx23NKNST3GyD.MA9XNUOwWOtHfJFxhxLrL3czV6lbaoy', 'student', 'st009', '', 'Cyber Security', '', NULL, NULL),
+(26, 'rangani atapattu', 'rangani@gmail.com', '$2y$10$Rz57eu9jK5diNiuTei67p.r2L2cwTzUt3x18J65FwCDGrPq/QO8Tu', 'mentor', '', 'mt0011', '', 'bit', NULL, NULL),
+(27, 'abs', 'abs@gmail.com', '$2y$10$Psf4klsdczo85rk3BtKWnexDgiknSuBAVOsYzvdJPm6gNZfScg6Rq', 'student', 'st0021', '', 'Graphic Design', '', '351536', '2026-08-02 22:04:52'),
+(28, 'test1', 'test@gmail.com', '$2y$10$v7eLsRmPZ2rrLVADQcWYAe4QUWwlgCn9Sk2xil8IYrndw8fWyVzEG', 'mentor', '', 'mt001', '', 'computing', NULL, NULL),
+(29, 'Nimmi abecoon', 'nimmi@gmail.com', '$2y$10$ns7hpX.M8Fd0J0pjAP2xSu6pzxs475eHD1YFicawEgS7l8vdYOvMO', 'student', 'st005', '', 'Software Engineering', '', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -355,6 +404,12 @@ ALTER TABLE `mentor_notifications`
 ALTER TABLE `mentor_profiles`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `mentor_id` (`mentor_id`);
+
+--
+-- Indexes for table `mentor_settings`
+--
+ALTER TABLE `mentor_settings`
+  ADD PRIMARY KEY (`mentor_id`);
 
 --
 -- Indexes for table `messages`
@@ -433,7 +488,7 @@ ALTER TABLE `mentor_profiles`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -457,11 +512,17 @@ ALTER TABLE `system_notifications`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `usersId` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `usersId` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `mentor_settings`
+--
+ALTER TABLE `mentor_settings`
+  ADD CONSTRAINT `mentor_settings_ibfk_1` FOREIGN KEY (`mentor_id`) REFERENCES `users` (`usersId`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `messages`

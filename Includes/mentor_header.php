@@ -278,32 +278,9 @@ $notifications->num_rows;
                     </a>
 
 
-                    <a
-                        href="#"
-                        class="sub-menu-link"
-                    >
-
-                        <i class='bx bx-bell'></i>
-
-                        <p>Notifications</p>
-
-                    </a>
-
 
                     <a
-                        href="mentor_messages.php"
-                        class="sub-menu-link"
-                    >
-
-                        <i class='bx bx-message-detail'></i>
-
-                        <p>Messages</p>
-
-                    </a>
-
-
-                    <a
-                        href="#"
+                        href="mentor_settings.php"
                         class="sub-menu-link"
                     >
 
